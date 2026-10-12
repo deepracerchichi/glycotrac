@@ -22,7 +22,7 @@ export default function AuthShell({ children }: { children: ReactNode }) {
             </div>
           </Panel>
         </div>
-        <p className="text-base text-white/70">glucotrac is a tracking tool, not medical advice.</p>
+        <p className="text-base text-white/70">glycotrac is a tracking tool, not medical advice.</p>
       </aside>
 
       <section className="flex items-center justify-center px-6 py-12">

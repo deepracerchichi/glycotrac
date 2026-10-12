@@ -16,7 +16,7 @@ export default function Statement() {
             Get started
           </Link> */}
           <p className="max-w-xs text-base text-ink/70">
-            glucotrac is a tracking tool, not medical advice.
+            glycotrac is a tracking tool, not medical advice.
           </p>
         </div>
       </Reveal>

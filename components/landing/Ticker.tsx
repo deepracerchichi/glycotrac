@@ -114,7 +114,7 @@ export default function Ticker() {
   return (
     <section ref={root} className="bg-paper px-6 py-20 md:py-28">
       <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[14rem_1fr_auto] md:gap-12">
-        <p className="text-xl leading-snug">glucotrac helps you with:</p>
+        <p className="text-xl leading-snug">glycotrac helps you with:</p>
 
         <div ref={viewport} aria-hidden="true" className="fade-y h-[22rem] overflow-hidden md:h-[30rem]">
           <ul ref={track} className="will-change-transform">

@@ -8,7 +8,7 @@ export default function Footer() {
         <div>
           <Wordmark tone="light" />
           <p className="mt-4 max-w-sm text-base text-white/70">
-            glucotrac is a tracking tool, not medical advice. Always follow your doctor&apos;s or pharmacist&apos;s instructions.
+            glycotrac is a tracking tool, not medical advice. Always follow your doctor&apos;s or pharmacist&apos;s instructions.
           </p>
         </div>
 

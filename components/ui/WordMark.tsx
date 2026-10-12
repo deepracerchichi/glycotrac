@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const BRAND = "Glucotrac";
+const BRAND = "glycotrac";
 
 export default function Wordmark({
   tone = "dark",
