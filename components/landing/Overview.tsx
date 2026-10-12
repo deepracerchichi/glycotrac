@@ -66,7 +66,7 @@ export default function Overview() {
     <section id="features" className="scroll-mt-28 bg-white px-6 py-20 md:py-28">
       <div className="mx-auto max-w-6xl">
         <Reveal className="mx-auto max-w-3xl text-center">
-          <h2 className="text-5xl font-normal tracking-tight md:text-6xl">Get to know DiaTrack</h2>
+          <h2 className="text-5xl font-normal tracking-tight md:text-6xl">Get to know glucotrac</h2>
           <p className="mt-5 text-xl text-ink/70">One place for your medications, refills and symptoms.</p>
         </Reveal>
 
@@ -85,9 +85,9 @@ export default function Overview() {
           ))}
         </div>
 
-        <div className="mt-12 flex justify-center">
+        {/* <div className="mt-12 flex justify-center">
           <ArrowButton href="/signup">Get started</ArrowButton>
-        </div>
+        </div> */}
       </div>
     </section>
   );

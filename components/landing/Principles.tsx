@@ -19,7 +19,7 @@ const cards = [
     text: "Notifications on your phone at the times you choose.",
     mock: (
       <Panel>
-        <p className="text-sm text-ink/60">DiaTrack · now</p>
+        <p className="text-sm text-ink/60">glucotrac · now</p>
         <p className="mt-1 text-base font-medium">Time for your medication</p>
         <p className="text-sm text-ink/60">Lunch tablet · 500mg</p>
       </Panel>

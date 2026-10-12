@@ -33,9 +33,9 @@ export default function Steps() {
           ))}
         </div>
 
-        <div className="mt-12 flex justify-center">
+        {/* <div className="mt-12 flex justify-center">
           <ArrowButton href="/signup">Get started</ArrowButton>
-        </div>
+        </div> */}
       </div>
     </section>
   );

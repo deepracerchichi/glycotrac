@@ -6,7 +6,7 @@ const field = "mt-1 rounded-xl border border-ink/15 px-3 py-2 text-base";
 const rows = [
   {
     title: "Set it once.",
-    text: "Add each medication with its dose and the times you take it. DiaTrack handles the rest.",
+    text: "Add each medication with its dose and the times you take it. glucotrac handles the rest.",
     mock: (
       <Panel className="mx-auto max-w-sm">
         <p className="text-sm text-ink/60">Medication</p>
@@ -24,7 +24,7 @@ const rows = [
     text: "A notification on your phone at the time you set, so you don't have to keep checking.",
     mock: (
       <Panel className="mx-auto max-w-sm">
-        <p className="text-sm text-ink/60">DiaTrack · now</p>
+        <p className="text-sm text-ink/60">glucotrac · now</p>
         <p className="mt-1 text-lg font-medium">Time for your medication</p>
         <p className="text-base text-ink/60">Morning tablet · 500mg</p>
       </Panel>

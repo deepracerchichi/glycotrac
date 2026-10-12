@@ -1,29 +1,55 @@
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
 import LogoutButton from "@/components/ui/LogOutButton";
+import Stats from "@/components/dashboard/Stats";
 import TodayList from "@/components/dashboard/TodayList";
+import RefillWatch from "@/components/dashboard/RefillWatch";
 import EnableReminders from "@/components/dashboard/EnableReminders";
+import SoonCards from "@/components/dashboard/SoonCards";
 
-export default function DashboardPage() {
+function lagos(options: Intl.DateTimeFormatOptions) {
+  return new Intl.DateTimeFormat("en-GB", { timeZone: "Africa/Lagos", ...options }).format(new Date());
+}
+
+export default async function DashboardPage() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const hour = Number(lagos({ hour: "numeric", hourCycle: "h23" }));
+  const greeting = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
+  const raw = user?.email?.split("@")[0] ?? "there";
+  const name = raw.charAt(0).toUpperCase() + raw.slice(1);
+  const date = lagos({ weekday: "long", day: "numeric", month: "long" });
+
   return (
-    <main className="mx-auto max-w-3xl px-6 py-12">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-extrabold">Today</h1>
-        <LogoutButton />
-      </div>
+    <div className="mx-auto max-w-6xl">
+      <header className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="text-4xl font-medium tracking-tight md:text-5xl">{greeting}, {name}</h1>
+          <p className="mt-1 text-xl text-ink/70">{date}</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="md:hidden">
+            <LogoutButton className="border-2 border-forest" />
+          </div>
+          <Link href="/dashboard/meds/new" className="inline-flex min-h-12 items-center rounded-full bg-mint px-6 font-medium text-forest">
+            + Add medication
+          </Link>
+        </div>
+      </header>
 
-      <div className="mt-6">
-        <EnableReminders />
-      </div>
-      <div className="mt-6">
+      <div className="mt-8"><Stats /></div>
+
+      <div className="mt-6 grid gap-6 xl:grid-cols-[1fr_22rem]">
         <TodayList />
+        <div className="grid content-start gap-6">
+          <RefillWatch />
+          <EnableReminders />
+          <SoonCards />
+        </div>
       </div>
-
-      <Link
-        href="/dashboard/meds/new"
-        className="mt-8 inline-flex min-h-12 items-center rounded-xl border-2 border-ink px-6 font-bold"
-      >
-        + Add medication
-      </Link>
-    </main>
+    </div>
   );
 }

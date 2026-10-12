@@ -13,7 +13,7 @@ const items: {
   {
     n: "01",
     title: "A nudge at the right time",
-    text: "Add each medication once. DiaTrack reminds you when it's time, and one tap marks it taken.",
+    text: "Add each medication once. glucotrac reminds you when it's time, and one tap marks it taken.",
     mock: { time: "08:00", name: "Morning tablet · 500mg", label: "⏰ Due now", tone: "warning" },
   },
   {
@@ -40,7 +40,7 @@ const items: {
 export default function Showcase() {
   return (
     <section className="mx-auto max-w-5xl px-6 pb-16">
-      <h2 className="text-4xl font-extrabold">What DiaTrack does</h2>
+      <h2 className="text-4xl font-extrabold">What glucotrac does</h2>
 
       <div className="mt-8 grid gap-6">
         {items.map((item, i) => (

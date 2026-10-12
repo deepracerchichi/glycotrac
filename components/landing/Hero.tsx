@@ -52,11 +52,11 @@ export default function Hero() {
           </h1>
 
           <p className="hero-sub mt-8 max-w-md text-xl text-white/90">
-            DiaTrack reminds you when each medication is due, warns you before you run out, and keeps a simple log of how you feel.
+            glucotrac reminds you when each medication is due, warns you before you run out, and keeps a simple log of how you feel.
           </p>
 
           <div className="mt-10 flex flex-col items-start gap-6">
-            <ArrowButton href="/signup" className="hero-cta">Try DiaTrack</ArrowButton>
+            <ArrowButton href="/signup" className="hero-cta">Try glucotrac</ArrowButton>
             <a href="#how" className="hero-cta inline-flex min-h-12 items-center text-lg text-mint underline-offset-4 hover:underline">
               See how it works →
             </a>
