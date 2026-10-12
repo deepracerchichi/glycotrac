@@ -6,9 +6,9 @@ export default function Footer() {
     <footer className="bg-forest px-6 py-14 text-white">
       <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[2fr_1fr_1fr]">
         <div>
-          <Wordmark />
+          <Wordmark tone="light" />
           <p className="mt-4 max-w-sm text-base text-white/70">
-            DiaTrack is a tracking tool, not medical advice. Always follow your doctor&apos;s or pharmacist&apos;s instructions.
+            glucotrac is a tracking tool, not medical advice. Always follow your doctor&apos;s or pharmacist&apos;s instructions.
           </p>
         </div>
 

@@ -8,7 +8,7 @@ export default function AuthShell({ children }: { children: ReactNode }) {
   return (
     <main className={`${fontClasses} grid min-h-screen bg-paper text-ink lg:grid-cols-2`}>
       <aside className="hidden flex-col justify-between bg-forest p-14 text-white lg:flex">
-        <Link href="/"><Wordmark /></Link>
+        <Link href="/"><Wordmark tone="light" /></Link>
         <div>
           <p className="text-6xl leading-[1.02] tracking-tight">
             Never miss<br />a dose or<br />
@@ -22,7 +22,7 @@ export default function AuthShell({ children }: { children: ReactNode }) {
             </div>
           </Panel>
         </div>
-        <p className="text-base text-white/70">DiaTrack is a tracking tool, not medical advice.</p>
+        <p className="text-base text-white/70">glucotrac is a tracking tool, not medical advice.</p>
       </aside>
 
       <section className="flex items-center justify-center px-6 py-12">
