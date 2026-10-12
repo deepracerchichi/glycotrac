@@ -10,9 +10,9 @@ export default async function DashboardLayout({ children }: { children: ReactNod
   } = await supabase.auth.getUser();
 
   return (
-    <div className={`${fontClasses} min-h-screen bg-paper text-ink md:grid md:grid-cols-[16rem_1fr]`}>
+    <div className={`${fontClasses} min-h-screen bg-paper text-ink md:flex`}>
       <Sidebar email={user?.email ?? ""} />
-      <div className="px-5 pb-28 pt-8 md:px-10 md:pb-12">{children}</div>
+      <div className="min-w-0 flex-1 px-5 pb-28 pt-8 md:px-10 md:pb-12">{children}</div>
       <BottomNav />
     </div>
   );

@@ -1,9 +1,12 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Wordmark from "@/components/ui/WordMark";
 import LogoutButton from "@/components/ui/LogOutButton";
+
+const KEY = "sidebar-collapsed";
 
 const items = [
   { label: "Today", href: "/dashboard", d: "M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" },
@@ -27,30 +30,65 @@ function useIsActive() {
 
 export function Sidebar({ email }: { email: string }) {
   const isActive = useIsActive();
+  const [collapsed, setCollapsed] = useState(false);
+
+  useEffect(() => {
+    try {
+      setCollapsed(localStorage.getItem(KEY) === "1");
+    } catch {}
+  }, []);
+
+  function toggle() {
+    const next = !collapsed;
+    setCollapsed(next);
+    try {
+      localStorage.setItem(KEY, next ? "1" : "0");
+    } catch {}
+  }
+
+  const row = `flex min-h-12 items-center gap-3 rounded-xl px-3 text-lg ${collapsed ? "justify-center" : ""}`;
+  const label = collapsed ? "sr-only" : "";
 
   return (
-    <aside className="sticky top-0 hidden h-screen flex-col justify-between bg-forest p-6 text-white md:flex">
+    <aside
+      className={`sticky top-0 hidden h-screen shrink-0 flex-col justify-between self-start overflow-hidden bg-forest p-4 text-white transition-[width] duration-300 motion-reduce:transition-none md:flex ${
+        collapsed ? "w-20" : "w-64"
+      }`}
+    >
       <div>
-        <Link href="/dashboard" className="block px-3 py-2"><Wordmark /></Link>
-        <nav aria-label="Main" className="mt-8 grid gap-1">
+        <div className={`flex items-center ${collapsed ? "flex-col gap-3" : "justify-between"}`}>
+          <Link href="/dashboard" aria-label="Dashboard home" className="px-2 py-2">
+            <Wordmark tone="light" mark={collapsed} />
+          </Link>
+          <button
+            type="button"
+            onClick={toggle}
+            aria-expanded={!collapsed}
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            className="grid size-11 place-items-center rounded-xl hover:bg-white/10"
+          >
+            <Icon d={collapsed ? "M9 18l6-6-6-6" : "M15 18l-6-6 6-6"} />
+          </button>
+        </div>
+
+        <nav aria-label="Main" className="mt-6 grid gap-1">
           {items.map((item) =>
             item.href ? (
               <Link
                 key={item.label}
                 href={item.href}
+                title={collapsed ? item.label : undefined}
                 aria-current={isActive(item.href) ? "page" : undefined}
-                className={`flex min-h-12 items-center gap-3 rounded-xl px-3 text-lg ${
-                  isActive(item.href) ? "bg-white/15 font-medium" : "text-white/80 hover:bg-white/10"
-                }`}
+                className={`${row} ${isActive(item.href) ? "bg-white/15 font-medium" : "text-white/80 hover:bg-white/10"}`}
               >
                 <Icon d={item.d} />
-                {item.label}
+                <span className={label}>{item.label}</span>
               </Link>
             ) : (
-              <div key={item.label} aria-disabled="true" className="flex min-h-12 items-center gap-3 rounded-xl px-3 text-lg text-white/40">
+              <div key={item.label} aria-disabled="true" title={collapsed ? `${item.label} (soon)` : undefined} className={`${row} text-white/40`}>
                 <Icon d={item.d} />
-                {item.label}
-                <span className="ml-auto text-xs">Soon</span>
+                <span className={label}>{item.label}</span>
+                {!collapsed && <span className="ml-auto text-xs">Soon</span>}
               </div>
             )
           )}
@@ -58,8 +96,8 @@ export function Sidebar({ email }: { email: string }) {
       </div>
 
       <div className="grid gap-3">
-        <p className="truncate px-3 text-sm text-white/60">{email}</p>
-        <LogoutButton className="border border-white/30 text-white hover:bg-white/10" />
+        {!collapsed && <p className="truncate px-3 text-sm text-white/60">{email}</p>}
+        <LogoutButton iconOnly={collapsed} className="border border-white/30 text-white hover:bg-white/10" />
       </div>
     </aside>
   );
