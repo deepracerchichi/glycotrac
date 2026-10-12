@@ -38,7 +38,7 @@ export default function Ticker() {
       let idx = N;
 
       const goTo = (animate: boolean) => {
-        const duration = animate ? 0.6 : 0;
+        const duration = animate ? 0.5 : 0;
 
         gsap.to(track.current, {
           y: centerY - idx * rowH,
@@ -68,7 +68,7 @@ export default function Ticker() {
         let inView = false;
         let hovering = false;
 
-        const timer: gsap.core.Tween = gsap.delayedCall(2.2, () => {
+        const timer: gsap.core.Tween = gsap.delayedCall(1.5, () => {
           idx += 1;
           goTo(true);
           timer.restart(true);
