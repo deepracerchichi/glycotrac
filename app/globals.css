@@ -1,26 +1,48 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-surface: #FFFBE6;
+  --color-card: #FFE57F;
+  --color-primary: #F26534;
+  --color-ink: #1A1A17;
+  --color-success: #3F9E1F;
+  --color-warning: #B45309;
+  --color-danger: #C81E1E;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-google-sans), system-ui, sans-serif;
+  --font-heading: var(--font-bricolage), system-ui, sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  font-size: 18px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+}
+
+@theme {
+  --color-forest: #2b1740;
+  --color-pine: #43256b;
+  --color-mint: #e2cbff;
+  --color-flame: #ff7a2f;
+  --color-paper: #f8f8f6;
+  --color-fog: #f0f0ee;
+  --color-sage: #ede2f8;
+}
+
+@theme inline {
+  --font-landing: var(--font-inter-tight), system-ui, sans-serif;
+  --font-mono-landing: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+.fade-y {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
 }
