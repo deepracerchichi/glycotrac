@@ -14,7 +14,7 @@ const googleSans = Google_Sans_Flex({
 });
 
 export const metadata: Metadata = {
-  title: "Linda",
+  title: "glycotrac",
   description: "Medication reminders, refill alerts and symptom tracking.",
 };
 
