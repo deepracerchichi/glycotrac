@@ -11,8 +11,8 @@ const KEY = "sidebar-collapsed";
 const items = [
   { label: "Today", href: "/dashboard", d: "M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" },
   { label: "Medications", href: "/dashboard/meds", d: "M10.5 3.5l10 10a4.95 4.95 0 0 1-7 7l-10-10a4.95 4.95 0 0 1 7-7zM8.5 8.5l7 7" },
-  { label: "Symptoms", href: null, d: "M22 12h-4l-3 9L9 3l-3 9H2" },
-  { label: "Summary", href: null, d: "M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM14 3v6h6M8 13h8M8 17h8" },
+  { label: "Symptoms", href: "/dashboard/symptoms", d: "M22 12h-4l-3 9L9 3l-3 9H2" },
+  { label: "Summary", href: "/dashboard/summary", d: "M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM14 3v6h6M8 13h8M8 17h8" },
 ];
 
 function Icon({ d }: { d: string }) {
