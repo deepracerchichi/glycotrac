@@ -4,11 +4,12 @@ import Link from "next/link";
 import { useMedications } from "@/lib/queries/medication";
 import { useTodayLogs, useTakeDose } from "@/lib/queries/doses";
 import { buildSlots } from "@/lib/today";
+import StatusIcon, { type StatusKind } from "@/components/ui/StatusIcon";
 
-const status = {
-  taken: { label: "✓ Taken", chip: "bg-[#e3f3da] text-[#2f7d14]" },
-  due: { label: "⏰ Due now", chip: "bg-[#fdebd3] text-[#9a4a07]" },
-  later: { label: "Later today", chip: "bg-fog text-ink/70" },
+const status: Record<string, { label: string; icon: StatusKind | null; chip: string }> = {
+  taken: { label: "Taken", icon: "taken", chip: "bg-[#e3f3da] text-[#2f7d14]" },
+  due: { label: "Due now", icon: "due", chip: "bg-[#fdebd3] text-[#9a4a07]" },
+  later: { label: "Later today", icon: null, chip: "bg-fog text-ink/70" },
 };
 
 export default function TodayList() {
@@ -47,7 +48,10 @@ export default function TodayList() {
                   <p className="line-clamp-2 text-xl">{slot.name}</p>
                   <p className="text-base text-ink/70">{slot.dose}</p>
                 </div>
-                <span className={`rounded-full px-3 py-1 text-base font-medium ${s.chip}`}>{s.label}</span>
+                <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-base font-medium ${s.chip}`}>
+                  {s.icon && <StatusIcon kind={s.icon} className="size-4" />}
+                  {s.label}
+                </span>
                 {!slot.taken && (
                   <button
                     onClick={() => takeDose.mutate({ medicationId: slot.medicationId, scheduledFor: slot.scheduledFor })}

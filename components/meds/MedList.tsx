@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMedications } from "@/lib/queries/medication";
 import { daysLeft, isLowSupply } from "@/lib/today";
+import StatusIcon from "@/components/ui/StatusIcon";
 
 export default function MedList() {
   const meds = useMedications();
@@ -36,9 +37,15 @@ export default function MedList() {
                 <span key={s.id} className="rounded-full bg-fog px-3 py-1 text-base">{s.time_of_day.slice(0, 5)}</span>
               ))}
             </div>
-            <p className={`mt-4 text-lg ${low ? "font-medium text-[#9a4a07]" : ""}`}>
-              {m.pills_remaining} pills left
-              {days !== null && ` · ${low ? "⚠ " : ""}${days} day${days === 1 ? "" : "s"}`}
+            <p className={`mt-4 flex flex-wrap items-center gap-x-2 text-lg ${low ? "font-medium text-[#9a4a07]" : ""}`}>
+              <span>{m.pills_remaining} pills left</span>
+              {days !== null && (
+                <span className="flex items-center gap-1.5">
+                  ·
+                  {low && <StatusIcon kind="low" className="size-5" />}
+                  {days} day{days === 1 ? "" : "s"}
+                </span>
+              )}
             </p>
           </li>
         );

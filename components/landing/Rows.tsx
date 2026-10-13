@@ -38,8 +38,8 @@ const rows = [
       <Panel className="mx-auto max-w-sm">
         <p className="text-sm text-ink/60">Family view</p>
         <div className="mt-3 grid gap-2">
-          <DoseRow time="08:00" name="Morning tablet" status="✓ Taken 08:04" tone="success" />
-          <DoseRow time="13:00" name="Lunch tablet" status="⏰ Due" tone="warning" />
+          <DoseRow time="08:00" name="Morning tablet" status="Taken 08:04" icon="taken" tone="success" />
+          <DoseRow time="13:00" name="Lunch tablet" status="Due" icon="due" tone="warning" />
         </div>
       </Panel>
     ),

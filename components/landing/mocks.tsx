@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import StatusIcon, { type StatusKind } from "@/components/ui/StatusIcon";
 
 const tones = {
   success: "text-success",
@@ -19,11 +20,13 @@ export function DoseRow({
   name,
   status,
   tone,
+  icon,
 }: {
   time: string;
   name: string;
   status: string;
   tone: keyof typeof tones;
+  icon?: StatusKind;
 }) {
   return (
     <div className="flex items-center justify-between gap-3 rounded-xl bg-paper px-3 py-2">
@@ -31,7 +34,10 @@ export function DoseRow({
         <p className="text-base font-medium">{time}</p>
         <p className="text-sm text-ink/60">{name}</p>
       </div>
-      <p className={`text-sm font-medium ${tones[tone]}`}>{status}</p>
+      <p className={`flex items-center gap-1.5 text-sm font-medium ${tones[tone]}`}>
+        {icon && <StatusIcon kind={icon} />}
+        {status}
+      </p>
     </div>
   );
 }

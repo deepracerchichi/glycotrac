@@ -17,8 +17,8 @@ export default function AuthShell({ children }: { children: ReactNode }) {
           <Panel className="mt-10 w-80">
             <p className="mb-3 text-lg font-medium">Today</p>
             <div className="grid gap-2">
-              <DoseRow time="08:00" name="Morning tablet" status="✓ Taken" tone="success" />
-              <DoseRow time="13:00" name="Lunch tablet" status="⏰ Due now" tone="warning" />
+              <DoseRow time="08:00" name="Morning tablet" status="Taken" icon="taken" tone="success" />
+              <DoseRow time="13:00" name="Lunch tablet" status="Due now" icon="due" tone="warning" />
             </div>
           </Panel>
         </div>

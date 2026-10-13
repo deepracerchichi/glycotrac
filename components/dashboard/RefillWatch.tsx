@@ -2,6 +2,7 @@
 
 import { useMedications } from "@/lib/queries/medication";
 import { daysLeft, isLowSupply } from "@/lib/today";
+import StatusIcon from "@/components/ui/StatusIcon";
 
 export default function RefillWatch() {
   const meds = useMedications();
@@ -30,8 +31,9 @@ export default function RefillWatch() {
                 <div className="mt-2 h-2 overflow-hidden rounded-full bg-fog">
                   <div className={`h-full rounded-full ${low ? "bg-[#b45309]" : "bg-forest"}`} style={{ width: `${pct}%` }} />
                 </div>
-                <p className={`mt-1 text-base ${low ? "font-medium text-[#9a4a07]" : "text-ink/70"}`}>
-                  {low ? `⚠ Low: ${days} day${days === 1 ? "" : "s"} left` : `${days} days left`}
+                <p className={`mt-1 flex items-center gap-1.5 text-base ${low ? "font-medium text-[#9a4a07]" : "text-ink/70"}`}>
+                  {low && <StatusIcon kind="low" />}
+                  {low ? `Low: ${days} day${days === 1 ? "" : "s"} left` : `${days} days left`}
                 </p>
               </li>
             );

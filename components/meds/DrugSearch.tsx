@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useDrugSearch, type DrugResult } from "@/lib/queries/drugs";
+import { CircleCheck } from "lucide-react";
 
 export const inputClass = "min-h-14 w-full rounded-2xl border-2 border-forest bg-white px-4 text-lg font-normal";
 
@@ -45,7 +46,12 @@ export default function DrugSearch({
         className={inputClass}
       />
 
-      {matched && <p className="text-base text-[#2f7d14]">✓ Found in the RxNorm drug database</p>}
+      {matched && (
+    <p className="flex items-center gap-1.5 text-base text-[#2f7d14]">
+        <CircleCheck className="size-4" aria-hidden="true" />
+        Found in the RxNorm drug database
+    </p>
+    )}
       {error && <span role="alert" className="text-danger">{error}</span>}
 
       {show && (

@@ -1,6 +1,7 @@
 import Reveal from "./Reveal";
 import ArrowButton from "./ArrowButton";
 import { Panel, DoseRow, Progress } from "./mocks";
+import { TriangleAlert } from "lucide-react";
 
 const cards = [
   {
@@ -11,8 +12,8 @@ const cards = [
         <p className="text-sm text-ink/60">Today</p>
         <p className="text-3xl font-medium">3 doses</p>
         <div className="mt-3 grid gap-2">
-          <DoseRow time="08:00" name="Morning tablet" status="✓ Taken" tone="success" />
-          <DoseRow time="13:00" name="Lunch tablet" status="⏰ Due" tone="warning" />
+          <DoseRow time="08:00" name="Morning tablet" status="Taken" icon="taken" tone="success" />
+          <DoseRow time="13:00" name="Lunch tablet" status="Due" icon="due" tone="warning" />
         </div>
       </Panel>
     ),
@@ -27,7 +28,10 @@ const cards = [
         <div className="mt-3">
           <Progress percent={25} />
         </div>
-        <p className="mt-2 text-sm font-medium text-warning">⚠ Time to refill</p>
+        <p className="mt-2 flex items-center gap-1.5 text-sm font-medium text-warning">
+          <TriangleAlert className="size-4" aria-hidden="true" />
+          Time to refill
+        </p>
       </Panel>
     ),
   },
@@ -53,7 +57,7 @@ const cards = [
         <p className="text-sm text-ink/60">Last 30 days</p>
         <p className="text-3xl font-medium">28 days logged</p>
         <div className="mt-3 grid gap-2">
-          <DoseRow time="Doses" name="Taken on time" status="✓" tone="success" />
+          <DoseRow time="Doses" name="Taken on time" status="Done" icon="taken" tone="success" />
           <DoseRow time="Symptoms" name="Logged" status="6" tone="muted" />
         </div>
       </Panel>

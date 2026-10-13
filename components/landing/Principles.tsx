@@ -1,5 +1,6 @@
 import Reveal from "./Reveal";
 import { Panel } from "./mocks";
+import { Lock } from "lucide-react";
 
 const cards = [
   {
@@ -30,7 +31,10 @@ const cards = [
     text: "Your records are only visible to your own account.",
     mock: (
       <Panel>
-        <p className="text-base font-medium">🔒 Only you</p>
+        <p className="flex items-center gap-2 text-base font-medium">
+          <Lock className="size-4" aria-hidden="true" />
+          Only you
+        </p>
         <p className="mt-1 text-sm text-ink/60">Doses, symptoms and meals stay in your account.</p>
       </Panel>
     ),

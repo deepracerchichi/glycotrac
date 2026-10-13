@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { CircleCheck } from "lucide-react";
 import { enableReminders } from "@/lib/push/enableReminders";
 
 export default function EnableReminders() {
@@ -22,7 +23,10 @@ export default function EnableReminders() {
     <section className="rounded-3xl bg-white p-5 ring-1 ring-black/5">
       <h2 className="text-xl font-medium">Reminders</h2>
       {status === "on" ? (
-        <p className="mt-3 font-medium text-[#2f7d14]">✓ Reminders are on</p>
+        <p className="mt-3 flex items-center gap-2 font-medium text-[#2f7d14]">
+          <CircleCheck className="size-5" aria-hidden="true" />
+          Reminders are on
+        </p>
       ) : (
         <>
           <p className="mt-2 text-ink/70">Get a notification on this phone when a dose is due.</p>
