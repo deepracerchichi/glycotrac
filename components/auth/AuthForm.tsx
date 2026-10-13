@@ -100,6 +100,12 @@ export default function AuthForm({ mode }: { mode: "login" | "signup" }) {
           {errors.password && <span role="alert" className="text-danger">{errors.password.message}</span>}
         </div>
 
+                {mode === "login" && (
+                  <Link href="/forgot-password" className="text-lg font-medium underline">
+                    Forgot password?
+                  </Link>
+                )}
+
         {error && <p role="alert" className="font-medium text-danger">{error}</p>}
         {notice && <p role="status" className="font-medium">{notice}</p>}
 
