@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMedications } from "@/lib/queries/medication";
 import { daysLeft, isLowSupply } from "@/lib/today";
 import StatusIcon from "@/components/ui/StatusIcon";
+import MedActions from "@/components/meds/MedActions";
 
 export default function MedList() {
   const meds = useMedications();
@@ -27,13 +28,16 @@ export default function MedList() {
       {meds.data.map((m) => {
         const days = daysLeft(m);
         const low = isLowSupply(m);
+        const times = [...m.schedules].sort((a: { time_of_day: string }, b: { time_of_day: string }) =>
+          a.time_of_day.localeCompare(b.time_of_day)
+        );
 
         return (
           <li key={m.id} className="rounded-3xl bg-white p-5 ring-1 ring-black/5">
             <p className="text-xl font-medium">{m.name}</p>
             <p className="text-ink/70">{m.dose}</p>
             <div className="mt-3 flex flex-wrap gap-2">
-              {m.schedules.map((s: { id: string; time_of_day: string }) => (
+              {times.map((s: { id: string; time_of_day: string }) => (
                 <span key={s.id} className="rounded-full bg-fog px-3 py-1 text-base">{s.time_of_day.slice(0, 5)}</span>
               ))}
             </div>
@@ -47,6 +51,7 @@ export default function MedList() {
                 </span>
               )}
             </p>
+            <MedActions id={m.id} name={m.name} />
           </li>
         );
       })}
