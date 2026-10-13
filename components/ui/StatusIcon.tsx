@@ -1,6 +1,6 @@
-import { CircleCheck, Clock, TriangleAlert } from "lucide-react";
+import { CircleCheck, CircleX, Clock, TriangleAlert } from "lucide-react";
 
-const icons = { taken: CircleCheck, due: Clock, low: TriangleAlert };
+const icons = { taken: CircleCheck, due: Clock, low: TriangleAlert, missed: CircleX };
 
 export type StatusKind = keyof typeof icons;
 
