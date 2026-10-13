@@ -1,5 +1,5 @@
 "use client";
-
+import Link from "next/link";
 import { useMedications } from "@/lib/queries/medication";
 import { daysLeft, isLowSupply } from "@/lib/today";
 import StatusIcon from "@/components/ui/StatusIcon";
@@ -35,6 +35,12 @@ export default function RefillWatch() {
                   {low && <StatusIcon kind="low" />}
                   {low ? `Low: ${days} day${days === 1 ? "" : "s"} left` : `${days} days left`}
                 </p>
+
+                {low && (
+                  <Link href="/dashboard/meds" className="mt-1 inline-block text-base font-medium underline">
+                    Log a refill
+                  </Link>
+                )}
               </li>
             );
           })}

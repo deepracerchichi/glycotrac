@@ -5,7 +5,7 @@ import Stats from "@/components/dashboard/Stats";
 import TodayList from "@/components/dashboard/TodayList";
 import RefillWatch from "@/components/dashboard/RefillWatch";
 import EnableReminders from "@/components/dashboard/EnableReminders";
-import SoonCards from "@/components/dashboard/SoonCards";
+import QuickActions from "@/components/dashboard/QuickActions";
 
 function lagos(options: Intl.DateTimeFormatOptions) {
   return new Intl.DateTimeFormat("en-GB", { timeZone: "Africa/Lagos", ...options }).format(new Date());
@@ -47,7 +47,7 @@ export default async function DashboardPage() {
         <div className="grid content-start gap-6">
           <RefillWatch />
           <EnableReminders />
-          <SoonCards />
+          <QuickActions />
         </div>
       </div>
     </div>

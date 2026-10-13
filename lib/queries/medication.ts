@@ -2,13 +2,31 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createClient } from "@/lib/supabase/client";
 import type { MedicationValues } from "@/lib/validation/medication";
 
+const toArgs = (v: MedicationValues) => ({
+  p_name: v.name,
+  p_rxcui: v.rxcui ?? null,
+  p_dose: v.dose,
+  p_pills: v.pillsRemaining,
+  p_per_dose: v.pillsPerDose,
+  p_times: v.times.map((t) => t.value),
+});
+
+function useRefresh() {
+  const queryClient = useQueryClient();
+  return () => {
+    queryClient.invalidateQueries({ queryKey: ["medications"] });
+    queryClient.invalidateQueries({ queryKey: ["dose_logs"] });
+    queryClient.invalidateQueries({ queryKey: ["history"] });
+  };
+}
+
 export function useMedications() {
   return useQuery({
     queryKey: ["medications"],
     queryFn: async () => {
       const { data, error } = await createClient()
         .from("medications")
-        .select("*, schedules(id, time_of_day)")
+        .select("*, schedules(id, time_of_day, created_at)")
         .order("created_at");
       if (error) throw error;
       return data;
@@ -17,30 +35,48 @@ export function useMedications() {
 }
 
 export function useAddMedication() {
-  const queryClient = useQueryClient();
-
+  const refresh = useRefresh();
   return useMutation({
     mutationFn: async (v: MedicationValues) => {
-      const supabase = createClient();
-
-      const { data: med, error } = await supabase
-        .from("medications")
-        .insert({
-          name: v.name,
-          rxcui: v.rxcui ?? null,
-          dose: v.dose,
-          pills_remaining: v.pillsRemaining,
-          pills_per_dose: v.pillsPerDose,
-        })
-        .select("id")
-        .single();
+      const { error } = await createClient().rpc("create_medication", toArgs(v));
       if (error) throw error;
-
-      const { error: scheduleError } = await supabase
-        .from("schedules")
-        .insert({ medication_id: med.id, time_of_day: v.time });
-      if (scheduleError) throw scheduleError;
     },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["medications"] }),
+    onSuccess: refresh,
+  });
+}
+
+export function useUpdateMedication(id: string) {
+  const refresh = useRefresh();
+  return useMutation({
+    mutationFn: async (v: MedicationValues) => {
+      const { error } = await createClient().rpc("update_medication", { p_id: id, ...toArgs(v) });
+      if (error) throw error;
+    },
+    onSuccess: refresh,
+  });
+}
+
+export function useDeleteMedication() {
+  const refresh = useRefresh();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await createClient().from("medications").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: refresh,
+  });
+}
+
+export function useRefill() {
+  const refresh = useRefresh();
+  return useMutation({
+    mutationFn: async (v: { id: string; pills: number }) => {
+      const { error } = await createClient().rpc("refill_medication", {
+        p_medication_id: v.id,
+        p_pills: v.pills,
+      });
+      if (error) throw error;
+    },
+    onSuccess: refresh,
   });
 }
