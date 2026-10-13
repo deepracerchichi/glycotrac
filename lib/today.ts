@@ -1,3 +1,7 @@
+export const MISSED_AFTER_MS = 2 * 60 * 60 * 1000;
+
+export type SlotStatus = "taken" | "due" | "missed" | "later";
+
 export type Slot = {
   medicationId: string;
   name: string;
@@ -5,6 +9,7 @@ export type Slot = {
   time: string;
   scheduledFor: string;
   taken: boolean;
+  status: SlotStatus;
 };
 
 type MedWithSchedules = {
@@ -33,7 +38,13 @@ export function startOfToday() {
   return d;
 }
 
-export function buildSlots(meds: MedWithSchedules[], logs: DoseLog[]): Slot[] {
+export function slotStatus(scheduledMs: number, taken: boolean, now: number): SlotStatus {
+  if (taken) return "taken";
+  if (scheduledMs > now) return "later";
+  return now - scheduledMs > MISSED_AFTER_MS ? "missed" : "due";
+}
+
+export function buildSlots(meds: MedWithSchedules[], logs: DoseLog[], now = Date.now()): Slot[] {
   const takenKeys = new Set(
     logs
       .filter((l) => l.taken_at)
@@ -47,6 +58,7 @@ export function buildSlots(meds: MedWithSchedules[], logs: DoseLog[]): Slot[] {
       const [h, m] = s.time_of_day.split(":").map(Number);
       const when = startOfToday();
       when.setHours(h, m, 0, 0);
+      const taken = takenKeys.has(`${med.id}|${when.getTime()}`);
 
       slots.push({
         medicationId: med.id,
@@ -54,7 +66,8 @@ export function buildSlots(meds: MedWithSchedules[], logs: DoseLog[]): Slot[] {
         dose: med.dose,
         time: s.time_of_day.slice(0, 5),
         scheduledFor: when.toISOString(),
-        taken: takenKeys.has(`${med.id}|${when.getTime()}`),
+        taken,
+        status: slotStatus(when.getTime(), taken, now),
       });
     }
   }

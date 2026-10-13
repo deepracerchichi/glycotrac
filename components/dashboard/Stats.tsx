@@ -4,7 +4,17 @@ import { useMedications } from "@/lib/queries/medication";
 import { useTodayLogs } from "@/lib/queries/doses";
 import { buildSlots, isLowSupply } from "@/lib/today";
 
-function Tile({ label, value, hint, children }: { label: string; value: string; hint?: string; children?: React.ReactNode }) {
+function Tile({
+  label,
+  value,
+  hint,
+  children,
+}: {
+  label: string;
+  value: string;
+  hint?: string;
+  children?: React.ReactNode;
+}) {
   return (
     <div className="rounded-3xl bg-white p-5 ring-1 ring-black/5">
       <p className="text-base text-ink/70">{label}</p>
@@ -32,14 +42,19 @@ export default function Stats() {
   if (meds.isError || logs.isError) return null;
 
   const slots = buildSlots(meds.data, logs.data);
-  const taken = slots.filter((s) => s.taken).length;
-  const next = slots.find((s) => !s.taken);
+  const taken = slots.filter((s) => s.status === "taken").length;
+  const missed = slots.filter((s) => s.status === "missed").length;
+  const next = slots.find((s) => s.status === "due" || s.status === "later");
   const low = meds.data.filter(isLowSupply).length;
   const pct = slots.length ? Math.round((taken / slots.length) * 100) : 0;
 
   return (
     <div className="grid gap-4 sm:grid-cols-3">
-      <Tile label="Doses today" value={`${taken} of ${slots.length}`}>
+      <Tile
+        label="Doses today"
+        value={`${taken} of ${slots.length}`}
+        hint={missed > 0 ? `${missed} missed` : undefined}
+      >
         <div className="mt-3 h-2 overflow-hidden rounded-full bg-fog">
           <div className="h-full rounded-full bg-forest" style={{ width: `${pct}%` }} />
         </div>

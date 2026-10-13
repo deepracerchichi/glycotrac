@@ -9,6 +9,7 @@ import StatusIcon, { type StatusKind } from "@/components/ui/StatusIcon";
 const status: Record<string, { label: string; icon: StatusKind | null; chip: string }> = {
   taken: { label: "Taken", icon: "taken", chip: "bg-[#e3f3da] text-[#2f7d14]" },
   due: { label: "Due now", icon: "due", chip: "bg-[#fdebd3] text-[#9a4a07]" },
+  missed: { label: "Missed", icon: "missed", chip: "bg-[#fbe0e0] text-[#a31515]" },
   later: { label: "Later today", icon: null, chip: "bg-fog text-ink/70" },
 };
 
@@ -25,7 +26,6 @@ export default function TodayList() {
     body = <p role="alert" className="font-medium text-danger">Couldn&apos;t load. Refresh to try again.</p>;
   } else {
     const slots = buildSlots(meds.data, logs.data);
-    const now = Date.now();
 
     body =
       slots.length === 0 ? (
@@ -38,8 +38,7 @@ export default function TodayList() {
       ) : (
         <ul className="grid gap-3">
           {slots.map((slot) => {
-            const isDue = new Date(slot.scheduledFor).getTime() <= now;
-            const s = status[slot.taken ? "taken" : isDue ? "due" : "later"];
+            const s = status[slot.status];
 
             return (
               <li key={`${slot.medicationId}-${slot.scheduledFor}`} className="flex flex-wrap items-center gap-4 rounded-2xl bg-paper p-4">
