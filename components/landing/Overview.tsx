@@ -50,7 +50,6 @@ const cards = [
   },
   {
     title: "Doctor summary",
-    soon: true,
     text: "One page of doses and symptoms to bring to your appointment.",
     mock: (
       <Panel>
@@ -82,7 +81,7 @@ export default function Overview() {
               className="flex min-h-[30rem] flex-col rounded-[2.5rem] bg-fog p-8"
             >
               <h3 className="text-3xl font-normal tracking-tight">{card.title}</h3>
-              {card.soon && <p className="mt-1 text-sm font-medium text-ink/60">Coming soon</p>}
+              {/* {card.soon && <p className="mt-1 text-sm font-medium text-ink/60">Coming soon</p>} */}
               <p className="mt-3 text-xl text-ink/70">{card.text}</p>
               <div className="mt-auto pt-10">{card.mock}</div>
             </Reveal>

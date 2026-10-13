@@ -19,7 +19,7 @@ export default function WeekTable() {
           <p className="mt-5 text-xl text-ink/70">
             Doses and symptoms side by side, ready to show your doctor.
           </p>
-          <p className="mt-2 text-sm font-medium text-ink/60">Coming soon · example data</p>
+          <p className="mt-2 text-sm font-medium text-ink/60">example data</p>
         </Reveal>
 
         <Reveal delay={0.1} className="mt-14 overflow-x-auto">

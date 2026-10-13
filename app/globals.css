@@ -46,3 +46,13 @@ h3 {
   -webkit-mask-image: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
   mask-image: linear-gradient(to bottom, transparent, black 25%, black 75%, transparent);
 }
+
+@media print {
+  aside,
+  nav[aria-label="Main"] {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+}
