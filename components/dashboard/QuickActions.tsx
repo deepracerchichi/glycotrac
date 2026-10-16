@@ -1,9 +1,12 @@
 import Link from "next/link";
-import { Activity, FileText } from "lucide-react";
+import { Activity, CalendarDays, Droplet, HeartPulse, Settings } from "lucide-react";
 
 const actions = [
+  { href: "/dashboard/readings", label: "Log a reading", text: "Blood sugar or blood pressure.", Icon: Droplet },
   { href: "/dashboard/symptoms", label: "Log a symptom", text: "Note how you feel right now.", Icon: Activity },
-  { href: "/dashboard/summary", label: "Doctor summary", text: "Doses and symptoms on one page.", Icon: FileText },
+  { href: "/dashboard/appointments", label: "Appointments", text: "Visits, lab tests and check-ups.", Icon: CalendarDays },
+  { href: "/dashboard/emergency", label: "Emergency card", text: "Your details, ready to print.", Icon: HeartPulse },
+  { href: "/dashboard/settings", label: "Settings", text: "Units, targets and reminders.", Icon: Settings },
 ];
 
 export default function QuickActions() {

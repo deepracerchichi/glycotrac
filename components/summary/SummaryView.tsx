@@ -7,6 +7,7 @@ import { useSymptoms } from "@/lib/queries/symptoms";
 import { useDoseHistory } from "@/lib/queries/history";
 import { buildSummary } from "@/lib/summary";
 import { severityLabels } from "@/lib/symptoms";
+import ReadingsSummary from "@/components/summary/ReadingsSummary";
 
 const ranges = [7, 14, 30];
 
@@ -123,6 +124,7 @@ export default function SummaryView() {
             </tbody>
           </table>
         </div>
+        <ReadingsSummary days={days} />
 
         <p className="mt-6 text-base text-ink/70">
           This summary shows what was recorded in the app. It is not medical advice.

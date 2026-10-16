@@ -6,6 +6,7 @@ import TodayList from "@/components/dashboard/TodayList";
 import RefillWatch from "@/components/dashboard/RefillWatch";
 import EnableReminders from "@/components/dashboard/EnableReminders";
 import QuickActions from "@/components/dashboard/QuickActions";
+import HealthSnapshot from "@/components/dashboard/HealthSnapshot";
 
 function lagos(options: Intl.DateTimeFormatOptions) {
   return new Intl.DateTimeFormat("en-GB", { timeZone: "Africa/Lagos", ...options }).format(new Date());
@@ -45,6 +46,7 @@ export default async function DashboardPage() {
       <div className="mt-6 grid gap-6 xl:grid-cols-[1fr_22rem]">
         <TodayList />
         <div className="grid content-start gap-6">
+          <HealthSnapshot />
           <RefillWatch />
           <EnableReminders />
           <QuickActions />
