@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import AddMedication from "@/components/meds/AddMedication";
 import { useMedications } from "@/lib/queries/medication";
 import { useTodayLogs, useTakeDose } from "@/lib/queries/doses";
 import { buildSlots } from "@/lib/today";
@@ -31,9 +31,7 @@ export default function TodayList() {
       slots.length === 0 ? (
         <div className="grid justify-items-start gap-4">
           <p className="text-xl">No medication yet. Add your first one to see today&apos;s doses here.</p>
-          <Link href="/dashboard/meds/new" className="inline-flex min-h-12 items-center rounded-full bg-mint px-6 font-medium text-forest">
-            Add medication
-          </Link>
+          <AddMedication />
         </div>
       ) : (
         <ul className="grid gap-3">

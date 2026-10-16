@@ -47,7 +47,7 @@ export default function MedForm({
   const timesError = errors.times?.root?.message ?? errors.times?.message;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mt-8 grid gap-6 rounded-3xl bg-white p-6 ring-1 ring-black/5">
+    <form onSubmit={handleSubmit(onSubmit)} className=" grid gap-6 ">
       <DrugSearch
         value={name}
         matched={matched}

@@ -1,28 +1,41 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TriangleAlert } from "lucide-react";
 import { readingSchema, type ReadingValues } from "@/lib/validation/reading";
 import { useAddReading } from "@/lib/queries/readings";
 import { defaultSettings, useSettings } from "@/lib/queries/settings";
-import { alertMessage, bpLevel, contexts, glucoseLevel, levelStyle, toMgdl, unitLabel, type Level } from "@/lib/readings";
+import { alertMessage, bpLevel, contexts, glucoseLevel, toMgdl, unitLabel } from "@/lib/readings";
 import { toLocalInput } from "@/lib/symptoms";
 import { Field, inputClass } from "@/components/ui/Field";
+import Select from "@/components/ui/Select";
+import { useModalClose } from "@/components/ui/ModalTrigger";
 
 const blank = (v: unknown) => (v === "" || v == null ? undefined : Number(v));
 const fresh = (kind: "glucose" | "bp") => ({ kind, context: "fasting" as const, note: "", measuredAt: toLocalInput() });
+const contextOptions = Object.entries(contexts).map(([value, label]) => ({ value, label }));
 
 export default function ReadingForm() {
+  const close = useModalClose();
   const add = useAddReading();
   const { data: s = defaultSettings } = useSettings();
-  const [result, setResult] = useState<{ kind: "glucose" | "bp"; level: Level } | null>(null);
+  const [warning, setWarning] = useState<string | null>(null);
 
-  const { register, handleSubmit, setValue, watch, reset, setError, clearErrors, formState: { errors } } =
+  const { register, handleSubmit, setValue, watch, reset, setError, clearErrors, control, formState: { errors } } =
     useForm<ReadingValues>({ resolver: zodResolver(readingSchema), defaultValues: fresh("glucose") });
 
   const kind = watch("kind");
+
+  function finish(k: "glucose" | "bp", message: string | null) {
+    if (message) {
+      setWarning(message);
+      reset(fresh(k));
+    } else {
+      close();
+    }
+  }
 
   function onSubmit(v: ReadingValues) {
     const common = { note: v.note?.trim() ? v.note.trim() : null, measuredAt: v.measuredAt };
@@ -32,32 +45,45 @@ export default function ReadingForm() {
       if (mg < 10 || mg > 1000) {
         return setError("glucose", { message: "That doesn't look right. Check the number and unit." });
       }
-      const level = glucoseLevel(mg, s);
+      const message = alertMessage("glucose", glucoseLevel(mg, s));
       add.mutate(
         { kind: "glucose", context: v.context ?? null, glucoseMgdl: mg, systolic: null, diastolic: null, ...common },
-        { onSuccess: () => { setResult({ kind: "glucose", level }); reset(fresh("glucose")); } }
+        { onSuccess: () => finish("glucose", message) }
       );
       return;
     }
 
-    const level = bpLevel(v.systolic!, v.diastolic!, s);
+    const message = alertMessage("bp", bpLevel(v.systolic!, v.diastolic!, s));
     add.mutate(
       { kind: "bp", context: null, glucoseMgdl: null, systolic: v.systolic!, diastolic: v.diastolic!, ...common },
-      { onSuccess: () => { setResult({ kind: "bp", level }); reset(fresh("bp")); } }
+      { onSuccess: () => finish("bp", message) }
     );
   }
 
-  const message = result ? alertMessage(result.kind, result.level) : null;
+  if (warning) {
+    return (
+      <div className="grid gap-5">
+        <p className="font-medium text-[#2f7d14]">Saved.</p>
+        <p role="alert" className="flex items-start gap-2 rounded-2xl bg-[#fbe0e0] p-4 text-lg font-medium text-[#a31515]">
+          <TriangleAlert className="mt-1 size-5 shrink-0" aria-hidden="true" />
+          {warning}
+        </p>
+        <button onClick={close} className="min-h-14 rounded-full bg-forest px-6 text-xl font-semibold text-white">
+          I&apos;ve read this
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6 rounded-3xl bg-white p-6 ring-1 ring-black/5">
+    <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6">
       <div role="group" aria-label="Reading type" className="grid grid-cols-2 gap-2">
         {([["glucose", "Blood sugar"], ["bp", "Blood pressure"]] as const).map(([k, label]) => (
           <button
             key={k}
             type="button"
             aria-pressed={kind === k}
-            onClick={() => { setValue("kind", k); clearErrors(); setResult(null); }}
+            onClick={() => { setValue("kind", k); clearErrors(); }}
             className={`min-h-14 rounded-2xl border-2 border-forest font-medium ${kind === k ? "bg-forest text-white" : "bg-white"}`}
           >
             {label}
@@ -70,13 +96,13 @@ export default function ReadingForm() {
           <Field label={`Reading (${unitLabel(s.glucose_unit)})`} error={errors.glucose?.message}>
             <input type="number" step="any" inputMode="decimal" className={inputClass} {...register("glucose", { setValueAs: blank })} />
           </Field>
-          <Field label="When was it?">
-            <select className={inputClass} {...register("context")}>
-              {Object.entries(contexts).map(([value, label]) => (
-                <option key={value} value={value}>{label}</option>
-              ))}
-            </select>
-          </Field>
+          <Controller
+            control={control}
+            name="context"
+            render={({ field }) => (
+              <Select label="When was it?" value={field.value ?? "fasting"} onChange={field.onChange} options={contextOptions} />
+            )}
+          />
         </>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2">
@@ -98,25 +124,6 @@ export default function ReadingForm() {
       </Field>
 
       {add.isError && <p role="alert" className="font-medium text-danger">Couldn&apos;t save. Try again.</p>}
-
-      {result && (
-        <div role="status" className="grid gap-3">
-          <p className="flex flex-wrap items-center gap-2 font-medium text-[#2f7d14]">
-            Saved.
-            {levelStyle[result.level].label && (
-              <span className={`rounded-full px-3 py-1 text-base ${levelStyle[result.level].chip}`}>
-                {levelStyle[result.level].label}
-              </span>
-            )}
-          </p>
-          {message && (
-            <p role="alert" className="flex items-start gap-2 rounded-2xl bg-[#fbe0e0] p-4 font-medium text-[#a31515]">
-              <TriangleAlert className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
-              {message}
-            </p>
-          )}
-        </div>
-      )}
 
       <button
         type="submit"

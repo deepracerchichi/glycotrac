@@ -13,7 +13,7 @@ const ranges = [7, 14, 30];
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl bg-white p-4 ring-1 ring-black/10">
+    <div className="min-w-0 rounded-2xl bg-paper p-4 print:bg-white print:ring-1 print:ring-black/10">
       <p className="text-base text-ink/70">{label}</p>
       <p className="mt-1 text-3xl font-medium">{value}</p>
     </div>
@@ -59,15 +59,13 @@ export default function SummaryView() {
         </button>
       </div>
 
-      <section className="rounded-3xl bg-white p-6 ring-1 ring-black/5 print:ring-0">
-        <h2 className="text-2xl font-medium">
-          Medication summary, last {days} days
-        </h2>
+      <section className="min-w-0 rounded-3xl bg-white p-5 ring-1 ring-black/5 sm:p-6 print:p-0 print:ring-0">
+        <h2 className="text-2xl font-medium">Medication summary, last {days} days</h2>
         <p className="mt-1 text-ink/70">
           Prepared {new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
         </p>
 
-        <div className="mt-6 grid gap-3 sm:grid-cols-4">
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <Stat label="Doses taken" value={String(s.taken)} />
           <Stat label="Doses missed" value={String(s.missed)} />
           <Stat label="On-time rate" value={s.adherence === null ? "n/a" : `${s.adherence}%`} />
@@ -78,53 +76,55 @@ export default function SummaryView() {
         {meds.data.length === 0 ? (
           <p className="mt-2 text-ink/70">None added.</p>
         ) : (
-          <ul className="mt-2 grid gap-1 text-lg">
+          <ul className="mt-3 grid gap-2">
             {meds.data.map((m) => (
-              <li key={m.id}>
-                <span className="font-medium">{m.name}</span> · {m.dose} ·{" "}
-                {[...m.schedules]
-                  .sort((a: { time_of_day: string }, b: { time_of_day: string }) => a.time_of_day.localeCompare(b.time_of_day))
-                  .map((x: { time_of_day: string }) => x.time_of_day.slice(0, 5))
-                  .join(", ")}
+              <li key={m.id} className="rounded-2xl bg-paper p-3 print:break-inside-avoid print:bg-white print:ring-1 print:ring-black/10">
+                <p className="break-words text-lg font-medium">{m.name}</p>
+                <p className="text-base text-ink/70">
+                  {m.dose} ·{" "}
+                  {[...m.schedules]
+                    .sort((a: { time_of_day: string }, b: { time_of_day: string }) => a.time_of_day.localeCompare(b.time_of_day))
+                    .map((x: { time_of_day: string }) => x.time_of_day.slice(0, 5))
+                    .join(", ")}
+                </p>
               </li>
             ))}
           </ul>
         )}
 
-        <h3 className="mt-8 text-xl font-medium">Day by day</h3>
-        <div className="mt-2 overflow-x-auto">
-          <table className="w-full min-w-[32rem] text-left text-lg">
-            <thead>
-              <tr className="border-b-2 border-forest">
-                <th className="py-2 pr-4 font-medium">Day</th>
-                <th className="py-2 pr-4 font-medium">Taken</th>
-                <th className="py-2 pr-4 font-medium">Missed</th>
-                <th className="py-2 font-medium">Symptoms</th>
-              </tr>
-            </thead>
-            <tbody>
-              {s.rows.map((r) => (
-                <tr key={r.key} className="border-b border-black/10 align-top">
-                  <td className="py-3 pr-4 font-medium">{r.label}</td>
-                  <td className="py-3 pr-4">{r.taken}</td>
-                  <td className="py-3 pr-4">{r.missed}</td>
-                  <td className="py-3">
-                    {r.symptoms.length === 0
-                      ? "None"
-                      : r.symptoms.map((x) => (
-                          <p key={x.id}>
-                            {x.name} ({severityLabels[x.severity].toLowerCase()}){" "}
-                            {new Date(x.occurred_at).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
-                            {x.note ? `: ${x.note}` : ""}
-                          </p>
-                        ))}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
         <ReadingsSummary days={days} />
+
+        <h3 className="mt-8 text-xl font-medium">Day by day</h3>
+        <ul className="mt-3 grid gap-2">
+          {s.rows.map((r) => (
+            <li key={r.key} className="rounded-2xl bg-paper p-4 print:break-inside-avoid print:bg-white print:ring-1 print:ring-black/10">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <p className="text-lg font-medium">{r.label}</p>
+                <p className="flex gap-2 text-base">
+                  <span className="rounded-full bg-[#e3f3da] px-3 py-1 font-medium text-[#2f7d14]">Taken {r.taken}</span>
+                  <span
+                    className={`rounded-full px-3 py-1 font-medium ${
+                      r.missed ? "bg-[#fbe0e0] text-[#a31515]" : "bg-fog text-ink/70"
+                    }`}
+                  >
+                    Missed {r.missed}
+                  </span>
+                </p>
+              </div>
+              {r.symptoms.length > 0 && (
+                <ul className="mt-2 grid gap-1 text-base">
+                  {r.symptoms.map((x) => (
+                    <li key={x.id} className="break-words">
+                      {x.name} ({severityLabels[x.severity].toLowerCase()}){" "}
+                      {new Date(x.occurred_at).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
+                      {x.note ? `: ${x.note}` : ""}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
 
         <p className="mt-6 text-base text-ink/70">
           This summary shows what was recorded in the app. It is not medical advice.

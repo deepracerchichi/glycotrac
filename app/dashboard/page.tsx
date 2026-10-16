@@ -1,12 +1,12 @@
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import LogoutButton from "@/components/ui/LogOutButton";
+import AddMedication from "@/components/meds/AddMedication";
 import Stats from "@/components/dashboard/Stats";
 import TodayList from "@/components/dashboard/TodayList";
+import HealthSnapshot from "@/components/dashboard/HealthSnapshot";
 import RefillWatch from "@/components/dashboard/RefillWatch";
 import EnableReminders from "@/components/dashboard/EnableReminders";
 import QuickActions from "@/components/dashboard/QuickActions";
-import HealthSnapshot from "@/components/dashboard/HealthSnapshot";
 
 function lagos(options: Intl.DateTimeFormatOptions) {
   return new Intl.DateTimeFormat("en-GB", { timeZone: "Africa/Lagos", ...options }).format(new Date());
@@ -27,7 +27,7 @@ export default async function DashboardPage() {
   return (
     <div className="mx-auto max-w-6xl">
       <header className="flex flex-wrap items-start justify-between gap-4">
-        <div>
+        <div className="min-w-0">
           <h1 className="text-4xl font-medium tracking-tight md:text-5xl">{greeting}, {name}</h1>
           <p className="mt-1 text-xl text-ink/70">{date}</p>
         </div>
@@ -35,9 +35,7 @@ export default async function DashboardPage() {
           <div className="md:hidden">
             <LogoutButton className="border-2 border-forest" />
           </div>
-          <Link href="/dashboard/meds/new" className="inline-flex min-h-12 items-center rounded-full bg-mint px-6 font-medium text-forest">
-            + Add medication
-          </Link>
+          <AddMedication />
         </div>
       </header>
 

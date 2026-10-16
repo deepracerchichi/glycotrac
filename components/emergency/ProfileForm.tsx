@@ -1,15 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { profileSchema, type ProfileValues } from "@/lib/validation/emergency";
 import { useEmergencyProfile, useSaveProfile, type Profile } from "@/lib/queries/emergency";
 import { Field, inputClass } from "@/components/ui/Field";
+import { useModalClose } from "@/components/ui/ModalTrigger";
 
 function Inner({ initial }: { initial: Profile | null }) {
+  const close = useModalClose();
   const save = useSaveProfile();
-  const [saved, setSaved] = useState(false);
 
   const { register, handleSubmit } = useForm<ProfileValues>({
     resolver: zodResolver(profileSchema),
@@ -24,11 +24,7 @@ function Inner({ initial }: { initial: Profile | null }) {
   });
 
   return (
-    <form
-      onSubmit={handleSubmit((v) => { setSaved(false); save.mutate(v, { onSuccess: () => setSaved(true) }); })}
-      className="grid gap-5 rounded-3xl bg-white p-6 ring-1 ring-black/5 print:hidden"
-    >
-      <h2 className="text-2xl font-medium">Your details</h2>
+    <form onSubmit={handleSubmit((v) => save.mutate(v, { onSuccess: close }))} className="grid gap-5">
       <Field label="Full name"><input className={inputClass} {...register("fullName")} /></Field>
       <Field label="Conditions" hint="For example: Type 2 diabetes, high blood pressure">
         <input className={inputClass} {...register("conditions")} />
@@ -43,7 +39,6 @@ function Inner({ initial }: { initial: Profile | null }) {
       </Field>
 
       {save.isError && <p role="alert" className="font-medium text-danger">Couldn&apos;t save. Try again.</p>}
-      {saved && <p role="status" className="font-medium text-[#2f7d14]">Saved.</p>}
 
       <button
         type="submit"

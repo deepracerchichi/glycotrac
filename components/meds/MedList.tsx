@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import AddMedication from "@/components/meds/AddMedication";
 import { useMedications } from "@/lib/queries/medication";
 import { daysLeft, isLowSupply } from "@/lib/today";
 import StatusIcon from "@/components/ui/StatusIcon";
@@ -16,9 +16,7 @@ export default function MedList() {
     return (
       <div className="grid justify-items-start gap-4 rounded-3xl bg-white p-6 ring-1 ring-black/5">
         <p className="text-xl">You haven&apos;t added any medication yet.</p>
-        <Link href="/dashboard/meds/new" className="inline-flex min-h-12 items-center rounded-full bg-mint px-6 font-medium text-forest">
-          Add medication
-        </Link>
+        <AddMedication />
       </div>
     );
   }
@@ -51,7 +49,7 @@ export default function MedList() {
                 </span>
               )}
             </p>
-            <MedActions id={m.id} name={m.name} />
+            <MedActions med={m} />
           </li>
         );
       })}

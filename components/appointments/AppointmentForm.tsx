@@ -1,37 +1,38 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { appointmentSchema, type AppointmentValues } from "@/lib/validation/appointment";
 import { useAddAppointment } from "@/lib/queries/appointments";
 import { kinds } from "@/lib/appointments";
 import { Field, inputClass } from "@/components/ui/Field";
+import Select from "@/components/ui/Select";
+import { useModalClose } from "@/components/ui/ModalTrigger";
 
-const fresh = () => ({ title: "", kind: "doctor" as const, scheduledAt: "", location: "", notes: "" });
+const kindOptions = Object.entries(kinds).map(([value, label]) => ({ value, label }));
 
 export default function AppointmentForm() {
+  const close = useModalClose();
   const add = useAddAppointment();
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<AppointmentValues>({
+
+  const { register, handleSubmit, control, formState: { errors } } = useForm<AppointmentValues>({
     resolver: zodResolver(appointmentSchema),
-    defaultValues: fresh(),
+    defaultValues: { title: "", kind: "doctor", scheduledAt: "", location: "", notes: "" },
   });
 
   return (
-    <form
-      onSubmit={handleSubmit((v) => add.mutate(v, { onSuccess: () => reset(fresh()) }))}
-      className="grid gap-6 rounded-3xl bg-white p-6 ring-1 ring-black/5"
-    >
+    <form onSubmit={handleSubmit((v) => add.mutate(v, { onSuccess: close }))} className="grid gap-6">
       <Field label="What is it?" error={errors.title?.message}>
         <input placeholder="Clinic visit" className={inputClass} {...register("title")} />
       </Field>
 
-      <Field label="Type">
-        <select className={inputClass} {...register("kind")}>
-          {Object.entries(kinds).map(([value, label]) => (
-            <option key={value} value={value}>{label}</option>
-          ))}
-        </select>
-      </Field>
+      <Controller
+        control={control}
+        name="kind"
+        render={({ field }) => (
+          <Select label="Type" value={field.value} onChange={field.onChange} options={kindOptions} />
+        )}
+      />
 
       <Field label="Date and time" error={errors.scheduledAt?.message}>
         <input type="datetime-local" className={inputClass} {...register("scheduledAt")} />

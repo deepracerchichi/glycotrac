@@ -6,30 +6,23 @@ import { TriangleAlert } from "lucide-react";
 import { symptomSchema, type SymptomValues } from "@/lib/validation/symptom";
 import { useAddSymptom } from "@/lib/queries/symptoms";
 import { severityLabels, symptomOptions, toLocalInput } from "@/lib/symptoms";
-import { inputClass } from "@/components/meds/DrugSearch";
-
-const fresh = () => ({ name: "", severity: 1, note: "", occurredAt: toLocalInput() });
+import { inputClass } from "@/components/ui/Field";
+import { useModalClose } from "@/components/ui/ModalTrigger";
 
 export default function SymptomForm() {
+  const close = useModalClose();
   const add = useAddSymptom();
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    reset,
-    formState: { errors },
-  } = useForm<SymptomValues>({ resolver: zodResolver(symptomSchema), defaultValues: fresh() });
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<SymptomValues>({
+    resolver: zodResolver(symptomSchema),
+    defaultValues: { name: "", severity: 1, note: "", occurredAt: toLocalInput() },
+  });
 
   const name = watch("name");
   const severity = watch("severity");
 
   return (
-    <form
-      onSubmit={handleSubmit((v) => add.mutate(v, { onSuccess: () => reset(fresh()) }))}
-      className="grid gap-6 rounded-3xl bg-white p-6 ring-1 ring-black/5"
-    >
+    <form onSubmit={handleSubmit((v) => add.mutate(v, { onSuccess: close }))} className="grid gap-6">
       <div className="grid gap-3">
         <p className="text-lg font-medium">What are you feeling?</p>
         <div className="flex flex-wrap gap-2">
@@ -47,12 +40,7 @@ export default function SymptomForm() {
             </button>
           ))}
         </div>
-        <input
-          aria-label="Or type your own"
-          placeholder="Or type your own"
-          className={inputClass}
-          {...register("name")}
-        />
+        <input aria-label="Or type your own" placeholder="Or type your own" className={inputClass} {...register("name")} />
         {errors.name && <span role="alert" className="text-danger">{errors.name.message}</span>}
       </div>
 

@@ -1,31 +1,18 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Google_Sans_Flex } from "next/font/google";
 import Providers from "@/components/providers";
+import { fontClasses } from "@/components/shared/fontClasses";
 import "./globals.css";
 
-const bricolage = Bricolage_Grotesque({
-  subsets: ["latin"],
-  variable: "--font-bricolage",
-});
-
-const googleSans = Google_Sans_Flex({
-  subsets: ["latin"],
-  variable: "--font-google-sans",
-});
-
 export const metadata: Metadata = {
-  title: "glycotrac",
-  description: "Medication reminders, refill alerts and symptom tracking.",
+  title: "Glucotrac",
+  description: "Medication reminders, refill alerts and symptom tracking for people living with diabetes.",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${bricolage.variable} ${googleSans.variable}`}>
-      <body>
+    <html lang="en">
+      <body className={fontClasses}>
         <Providers>{children}</Providers>
       </body>
     </html>
