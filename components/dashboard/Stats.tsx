@@ -11,7 +11,7 @@ export default function Stats() {
 
   if (meds.isPending || logs.isPending) {
     return (
-      <div className="grid grid-cols-2 gap-3 md:gap-4 xl:grid-cols-1">
+      <div className="grid grid-cols-2 gap-3 md:gap-4 @5xl:ml-6 @5xl:w-[22rem] @5xl:grid-cols-1">
         {[0, 1].map((i) => (
           <div key={i} className="h-28 animate-pulse rounded-3xl bg-fog motion-reduce:animate-none" aria-hidden="true" />
         ))}
@@ -30,7 +30,7 @@ export default function Stats() {
   const pct = Math.round((taken / slots.length) * 100);
 
   return (
-    <div className="grid grid-cols-2 gap-3 md:gap-4 xl:grid-cols-1">
+    <div className="grid grid-cols-2 gap-3 md:gap-4 @5xl:ml-6 @5xl:w-[22rem] @5xl:grid-cols-1">
       <StatTile label="Doses today" value={`${taken} of ${slots.length}`} hint={missed > 0 ? `${missed} not logged` : undefined}>
         <div
           role="progressbar"

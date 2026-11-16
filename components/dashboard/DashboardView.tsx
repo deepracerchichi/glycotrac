@@ -11,7 +11,7 @@ import QuickActions from "@/components/dashboard/QuickActions";
 
 export default function DashboardView({ greeting, name, date }: { greeting: string; name?: string; date: string }) {
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="@container mx-auto max-w-6xl">
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0">
           <h1 className="text-3xl font-medium tracking-tight md:text-5xl">
@@ -32,24 +32,24 @@ export default function DashboardView({ greeting, name, date }: { greeting: stri
         </div>
       </header>
 
-      <div className="mt-6 grid gap-4 md:mt-8 xl:grid-cols-[1fr_22rem]">
+      <div className="mt-6 grid gap-y-4 md:mt-8 @5xl:grid-cols-[1fr_auto]">
         <NextDose />
         <Stats />
       </div>
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-[1fr_22rem]">
+      <div className="mt-6 grid gap-6 @5xl:grid-cols-[1fr_22rem]">
         <TodayList />
         <div className="flex flex-col gap-6">
-          <div className="order-1 xl:order-4">
+          <div className="order-1 @5xl:order-4">
             <QuickActions />
           </div>
-          <div className="order-2 xl:order-1">
+          <div className="order-2 @5xl:order-1">
             <HealthSnapshot />
           </div>
-          <div className="order-3 xl:order-2">
+          <div className="order-3 @5xl:order-2">
             <RefillWatch />
           </div>
-          <div className="order-4 xl:order-3">
+          <div className="order-4 @5xl:order-3">
             <EnableReminders />
           </div>
         </div>

@@ -10,19 +10,19 @@ const actions = [
 
 export default function QuickActions() {
   return (
-    <nav aria-label="Quick actions" className="grid grid-cols-2 gap-3 xl:grid-cols-1">
+    <nav aria-label="Quick actions" className="grid grid-cols-2 gap-3 @5xl:grid-cols-1">
       {actions.map(({ href, label, text, Icon, urgent }) => (
         <Link
           key={href}
           href={href}
-          className={`flex flex-col items-start gap-3 rounded-3xl p-4 shadow-sm ring-1 transition active:scale-[0.99] xl:flex-row xl:p-5 ${
+          className={`flex flex-col items-start gap-3 rounded-3xl p-4 shadow-sm ring-1 transition active:scale-[0.99] @5xl:flex-row @5xl:p-5 ${
             urgent ? "bg-bad-bg text-bad ring-bad/20 hover:bg-bad-bg/70" : "bg-white ring-black/5 hover:bg-fog"
           }`}
         >
-          <Icon className="size-7 shrink-0 xl:mt-1 xl:size-6" aria-hidden="true" />
+          <Icon className="size-7 shrink-0 @5xl:mt-1 @5xl:size-6" aria-hidden="true" />
           <div>
-            <p className="text-lg font-medium leading-snug xl:text-xl">{label}</p>
-            <p className={`hidden xl:block ${urgent ? "text-bad/80" : "text-ink/70"}`}>{text}</p>
+            <p className="text-lg font-medium leading-snug @5xl:text-xl">{label}</p>
+            <p className={`hidden @5xl:block ${urgent ? "text-bad/80" : "text-ink/70"}`}>{text}</p>
           </div>
         </Link>
       ))}

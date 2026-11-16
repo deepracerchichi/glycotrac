@@ -34,7 +34,7 @@ export default function NextDose() {
 
   if (!target) {
     return (
-      <section className="rounded-[2rem] bg-gradient-to-br from-forest to-pine p-6 text-white md:p-8">
+      <section className="@container rounded-[2rem] bg-gradient-to-br from-forest to-pine p-6 text-white md:p-8">
         <p className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-base font-medium">
           <CircleCheck className="size-5" aria-hidden="true" />
           All done
@@ -52,7 +52,7 @@ export default function NextDose() {
   const rest = open.length - 1;
 
   return (
-    <section aria-labelledby="next-dose" className="rounded-[2rem] bg-gradient-to-br from-forest to-pine p-6 text-white md:p-8">
+    <section aria-labelledby="next-dose" className="@container rounded-[2rem] bg-gradient-to-br from-forest to-pine p-6 text-white md:p-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-base font-medium">
           <Icon className="size-5" aria-hidden="true" />
@@ -63,12 +63,12 @@ export default function NextDose() {
         </p>
       </div>
 
-      <div className="mt-5 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+      <div className="mt-5 flex flex-col gap-6 @2xl:flex-row @2xl:items-end @2xl:justify-between">
         <div className="min-w-0">
           <h2 id="next-dose" className="sr-only">
             Next dose
           </h2>
-          <p className="text-6xl font-medium tracking-tight tabular-nums md:text-7xl">
+          <p className="text-6xl font-medium tracking-tight tabular-nums @2xl:text-7xl">
             {time} <span className="text-3xl text-white/70 md:text-4xl">{period}</span>
           </p>
           <p className="mt-2 line-clamp-2 text-2xl">{target.name}</p>
@@ -92,7 +92,7 @@ export default function NextDose() {
               }
             )
           }
-          className="min-h-16 w-full rounded-full bg-white px-10 text-xl font-semibold text-forest transition hover:bg-mint active:scale-[0.98] disabled:opacity-60 md:w-auto"
+          className="min-h-16 w-full rounded-full bg-white px-10 text-xl font-semibold text-forest transition hover:bg-mint active:scale-[0.98] disabled:opacity-60 @2xl:w-auto"
         >
           {takeDose.isPending ? "Saving..." : "Mark as taken"}
         </button>
