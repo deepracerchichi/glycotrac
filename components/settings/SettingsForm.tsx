@@ -109,12 +109,12 @@ function Inner({ initial }: { initial: Settings }) {
       </label>
 
       {save.isError && <p role="alert" className="font-medium text-danger">Couldn&apos;t save. Try again.</p>}
-      {saved && <p role="status" className="font-medium text-[#2f7d14]">Saved.</p>}
+      {saved && <p role="status" className="font-medium text-ok">Saved.</p>}
 
       <button
         type="submit"
         disabled={save.isPending}
-        className="min-h-14 rounded-full bg-mint px-6 text-xl font-semibold text-forest disabled:opacity-60"
+        className="min-h-14 rounded-full bg-forest px-6 text-xl font-semibold text-white transition hover:bg-pine active:scale-[0.99] disabled:opacity-60"
       >
         {save.isPending ? "Saving..." : "Save settings"}
       </button>

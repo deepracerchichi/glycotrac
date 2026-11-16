@@ -63,8 +63,8 @@ export default function ReadingForm() {
   if (warning) {
     return (
       <div className="grid gap-5">
-        <p className="font-medium text-[#2f7d14]">Saved.</p>
-        <p role="alert" className="flex items-start gap-2 rounded-2xl bg-[#fbe0e0] p-4 text-lg font-medium text-[#a31515]">
+        <p className="font-medium text-ok">Saved.</p>
+        <p role="alert" className="flex items-start gap-2 rounded-2xl bg-bad-bg p-4 text-lg font-medium text-bad">
           <TriangleAlert className="mt-1 size-5 shrink-0" aria-hidden="true" />
           {warning}
         </p>
@@ -128,7 +128,7 @@ export default function ReadingForm() {
       <button
         type="submit"
         disabled={add.isPending}
-        className="min-h-14 rounded-full bg-mint px-6 text-xl font-semibold text-forest disabled:opacity-60"
+        className="min-h-14 rounded-full bg-forest px-6 text-xl font-semibold text-white transition hover:bg-pine active:scale-[0.99] disabled:opacity-60"
       >
         {add.isPending ? "Saving..." : "Save reading"}
       </button>

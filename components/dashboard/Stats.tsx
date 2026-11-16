@@ -3,27 +3,7 @@
 import { useMedications } from "@/lib/queries/medication";
 import { useTodayLogs } from "@/lib/queries/doses";
 import { buildSlots, isLowSupply } from "@/lib/today";
-
-function Tile({
-  label,
-  value,
-  hint,
-  children,
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-  children?: React.ReactNode;
-}) {
-  return (
-    <div className="rounded-3xl bg-white p-5 ring-1 ring-black/5">
-      <p className="text-base text-ink/70">{label}</p>
-      <p className="mt-1 text-4xl font-medium tracking-tight">{value}</p>
-      {hint && <p className="mt-1 text-base text-ink/70">{hint}</p>}
-      {children}
-    </div>
-  );
-}
+import StatTile from "@/components/ui/StatTile";
 
 export default function Stats() {
   const meds = useMedications();
@@ -31,9 +11,9 @@ export default function Stats() {
 
   if (meds.isPending || logs.isPending) {
     return (
-      <div className="grid gap-4 sm:grid-cols-3">
-        {[0, 1, 2].map((i) => (
-          <div key={i} className="h-32 animate-pulse rounded-3xl bg-fog motion-reduce:animate-none" />
+      <div className="grid grid-cols-2 gap-3 md:gap-4 xl:grid-cols-1">
+        {[0, 1].map((i) => (
+          <div key={i} className="h-28 animate-pulse rounded-3xl bg-fog motion-reduce:animate-none" aria-hidden="true" />
         ))}
       </div>
     );
@@ -42,32 +22,34 @@ export default function Stats() {
   if (meds.isError || logs.isError) return null;
 
   const slots = buildSlots(meds.data, logs.data);
+  if (slots.length === 0) return null;
+
   const taken = slots.filter((s) => s.status === "taken").length;
   const missed = slots.filter((s) => s.status === "missed").length;
-  const next = slots.find((s) => s.status === "due" || s.status === "later");
   const low = meds.data.filter(isLowSupply).length;
-  const pct = slots.length ? Math.round((taken / slots.length) * 100) : 0;
+  const pct = Math.round((taken / slots.length) * 100);
 
   return (
-    <div className="grid gap-4 sm:grid-cols-3">
-      <Tile
-        label="Doses today"
-        value={`${taken} of ${slots.length}`}
-        hint={missed > 0 ? `${missed} missed` : undefined}
-      >
-        <div className="mt-3 h-2 overflow-hidden rounded-full bg-fog">
-          <div className="h-full rounded-full bg-forest" style={{ width: `${pct}%` }} />
+    <div className="grid grid-cols-2 gap-3 md:gap-4 xl:grid-cols-1">
+      <StatTile label="Doses today" value={`${taken} of ${slots.length}`} hint={missed > 0 ? `${missed} not logged` : undefined}>
+        <div
+          role="progressbar"
+          aria-label="Doses taken today"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={pct}
+          className="mt-3 h-2.5 overflow-hidden rounded-full bg-fog"
+        >
+          <div
+            className="h-full rounded-full bg-forest transition-[width] duration-500 motion-reduce:transition-none"
+            style={{ width: `${pct}%` }}
+          />
         </div>
-      </Tile>
-      <Tile
-        label="Next dose"
-        value={next ? next.time : slots.length ? "All done" : "None yet"}
-        hint={next?.name}
-      />
-      <Tile
+      </StatTile>
+      <StatTile
         label="Refills needed"
         value={low === 0 ? "None" : String(low)}
-        hint={low === 0 ? "Supplies look good" : low === 1 ? "medication running low" : "medications running low"}
+        hint={low === 0 ? "Supplies look good" : "running low"}
       />
     </div>
   );

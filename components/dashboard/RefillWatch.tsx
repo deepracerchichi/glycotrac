@@ -15,7 +15,7 @@ export default function RefillWatch() {
     .slice(0, 4);
 
   return (
-    <section className="rounded-3xl bg-white p-5 ring-1 ring-black/5">
+    <section className="rounded-3xl bg-white p-5 shadow-sm ring-1 ring-black/5">
       <h2 className="text-xl font-medium">Refill watch</h2>
 
       {rows.length === 0 ? (
@@ -30,15 +30,15 @@ export default function RefillWatch() {
               <li key={m.id}>
                 <p className="line-clamp-1 text-lg">{m.name}</p>
                 <div className="mt-2 h-2 overflow-hidden rounded-full bg-fog">
-                  <div className={`h-full rounded-full ${low ? "bg-[#b45309]" : "bg-forest"}`} style={{ width: `${pct}%` }} />
+                  <div className={`h-full rounded-full ${low ? "bg-warning" : "bg-forest"}`} style={{ width: `${pct}%` }} />
                 </div>
-                <p className={`mt-1 flex items-center gap-1.5 text-base ${low ? "font-medium text-[#9a4a07]" : "text-ink/70"}`}>
+                <p className={`mt-1 flex items-center gap-1.5 text-base ${low ? "font-medium text-warn" : "text-ink/70"}`}>
                   {low && <StatusIcon kind="low" />}
                   {low ? `Low: ${days} day${days === 1 ? "" : "s"} left` : `${days} days left`}
                 </p>
 
                 {low && (
-                  <Link href="/dashboard/meds" className="mt-1 inline-block text-base font-medium underline">
+                  <Link href="/dashboard/meds" className="mt-2 inline-flex min-h-11 items-center rounded-full border-2 border-forest px-4 text-base font-medium transition hover:bg-fog">
                     Log a refill
                   </Link>
                 )}

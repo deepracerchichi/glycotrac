@@ -7,8 +7,8 @@ import { doseBefore, formatGap, severityLabels, type TakenDose } from "@/lib/sym
 
 const chip: Record<number, string> = {
   1: "bg-fog text-ink/80",
-  2: "bg-[#fdebd3] text-[#9a4a07]",
-  3: "bg-[#fbe0e0] text-[#a31515]",
+  2: "bg-warn-bg text-warn",
+  3: "bg-bad-bg text-bad",
 };
 
 export default function SymptomList() {

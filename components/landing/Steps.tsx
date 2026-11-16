@@ -1,5 +1,4 @@
 import Reveal from "./Reveal";
-import ArrowButton from "./ArrowButton";
 
 const cards = [
   { tag: "Logging", big: "1 tap", small: "to log a dose" },
@@ -27,15 +26,11 @@ export default function Steps() {
               <p className="text-2xl">{card.tag}</p>
               <div>
                 <p className="text-6xl tracking-tight">{card.big}</p>
-                <p className="mt-2 text-lg text-white/80">{card.small}</p>
+                <p className="mt-2 text-lg text-white/85">{card.small}</p>
               </div>
             </Reveal>
           ))}
         </div>
-
-        {/* <div className="mt-12 flex justify-center">
-          <ArrowButton href="/signup">Get started</ArrowButton>
-        </div> */}
       </div>
     </section>
   );

@@ -41,7 +41,7 @@ export default function DrugSearch({
       />
 
       {matched && (
-        <p className="flex items-center gap-1.5 text-base text-[#2f7d14]">
+        <p className="flex items-center gap-1.5 text-base text-ok">
           <CircleCheck className="size-4" aria-hidden="true" />
           Found in the RxNorm drug database
         </p>

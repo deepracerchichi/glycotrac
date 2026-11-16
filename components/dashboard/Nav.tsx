@@ -5,23 +5,28 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Wordmark from "@/components/ui/WordMark";
 import LogoutButton from "@/components/ui/LogOutButton";
+import Modal from "@/components/ui/Modal";
 
 const KEY = "sidebar-collapsed";
 
 const items = [
   { label: "Today", href: "/dashboard", mobile: true, d: "M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" },
-  { label: "Medications", href: "/dashboard/meds", mobile: true, d: "M10.5 3.5l10 10a4.95 4.95 0 0 1-7 7l-10-10a4.95 4.95 0 0 1 7-7zM8.5 8.5l7 7" },
+  { label: "Medications", short: "Meds", href: "/dashboard/meds", mobile: true, d: "M10.5 3.5l10 10a4.95 4.95 0 0 1-7 7l-10-10a4.95 4.95 0 0 1 7-7zM8.5 8.5l7 7" },
   { label: "Readings", href: "/dashboard/readings", mobile: true, d: "M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" },
   { label: "Symptoms", href: "/dashboard/symptoms", mobile: true, d: "M22 12h-4l-3 9L9 3l-3 9H2" },
-  { label: "Summary", href: "/dashboard/summary", mobile: true, d: "M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM14 3v6h6M8 13h8M8 17h8" },
+  { label: "Summary", href: "/dashboard/summary", mobile: false, d: "M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM14 3v6h6M8 13h8M8 17h8" },
   { label: "Appointments", href: "/dashboard/appointments", mobile: false, d: "M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z" },
-  { label: "Emergency", href: "/dashboard/emergency", mobile: false, d: "M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7z" },
+  { label: "Emergency", href: "/dashboard/emergency", mobile: false, urgent: true, d: "M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7z" },
   { label: "Settings", href: "/dashboard/settings", mobile: false, d: "M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6" },
 ];
 
-function Icon({ d }: { d: string }) {
+const moreItems = items.filter((i) => !i.mobile);
+// Emergency first in the phone menu: it's the one people need fastest.
+const moreSorted = [...moreItems].sort((a, b) => Number(!!b.urgent) - Number(!!a.urgent));
+
+function Icon({ d, className = "size-6" }: { d: string; className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className="size-6 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <svg viewBox="0 0 24 24" className={`${className} shrink-0`} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d={d} />
     </svg>
   );
@@ -50,12 +55,12 @@ export function Sidebar({ email }: { email: string }) {
     } catch {}
   }
 
-  const row = `flex min-h-12 items-center gap-3 rounded-xl px-3 text-lg ${collapsed ? "justify-center" : ""}`;
+  const row = `flex min-h-12 items-center gap-3 rounded-xl px-3 text-lg transition-colors ${collapsed ? "justify-center" : ""}`;
   const label = collapsed ? "sr-only" : "";
 
   return (
     <aside
-      className={`sticky top-0 hidden h-screen shrink-0 flex-col justify-between self-start overflow-hidden bg-forest p-4 text-white transition-[width] duration-300 motion-reduce:transition-none md:flex ${
+      className={`sticky top-0 hidden h-dvh shrink-0 flex-col justify-between self-start overflow-hidden bg-forest p-4 text-white transition-[width] duration-300 motion-reduce:transition-none md:flex ${
         collapsed ? "w-20" : "w-64"
       }`}
     >
@@ -76,31 +81,25 @@ export function Sidebar({ email }: { email: string }) {
         </div>
 
         <nav aria-label="Main" className="mt-6 grid gap-1">
-          {items.map((item) =>
-            item.href ? (
-              <Link
-                key={item.label}
-                href={item.href}
-                title={collapsed ? item.label : undefined}
-                aria-current={isActive(item.href) ? "page" : undefined}
-                className={`${row} ${isActive(item.href) ? "bg-white/15 font-medium" : "text-white/80 hover:bg-white/10"}`}
-              >
-                <Icon d={item.d} />
-                <span className={label}>{item.label}</span>
-              </Link>
-            ) : (
-              <div key={item.label} aria-disabled="true" title={collapsed ? `${item.label} (soon)` : undefined} className={`${row} text-white/40`}>
-                <Icon d={item.d} />
-                <span className={label}>{item.label}</span>
-                {!collapsed && <span className="ml-auto text-xs">Soon</span>}
-              </div>
-            )
-          )}
+          {items.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              title={collapsed ? item.label : undefined}
+              aria-current={isActive(item.href) ? "page" : undefined}
+              className={`${row} ${
+                isActive(item.href) ? "bg-white/15 font-medium shadow-[inset_3px_0_0_0_#e2cbff]" : "text-white/80 hover:bg-white/10"
+              }`}
+            >
+              <Icon d={item.d} />
+              <span className={label}>{item.label}</span>
+            </Link>
+          ))}
         </nav>
       </div>
 
       <div className="grid gap-3">
-        {!collapsed && <p className="truncate px-3 text-sm text-white/60">{email}</p>}
+        {!collapsed && <p className="truncate px-3 text-sm text-white/70">{email}</p>}
         <LogoutButton iconOnly={collapsed} className="border border-white/30 text-white hover:bg-white/10" />
       </div>
     </aside>
@@ -109,32 +108,62 @@ export function Sidebar({ email }: { email: string }) {
 
 export function BottomNav() {
   const isActive = useIsActive();
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreActive = moreItems.some((i) => isActive(i.href));
+
+  const tab = "flex min-h-16 flex-col items-center justify-center gap-1 text-sm";
 
   return (
-    <nav
-      aria-label="Main"
-      className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 bg-forest pb-[env(safe-area-inset-bottom)] text-white md:hidden"
-    >
-      {items.filter((item) => item.mobile).map((item) =>
-        item.href ? (
-          <Link
-            key={item.label}
-            href={item.href}
-            aria-current={isActive(item.href) ? "page" : undefined}
-            className={`flex min-h-16 flex-col items-center justify-center gap-1 text-sm ${
-              isActive(item.href) ? "font-medium text-mint" : "text-white/80"
-            }`}
-          >
-            <Icon d={item.d} />
-            {item.label}
-          </Link>
-        ) : (
-          <div key={item.label} aria-disabled="true" className="flex min-h-16 flex-col items-center justify-center gap-1 text-sm text-white/40">
-            <Icon d={item.d} />
-            {item.label}
-          </div>
-        )
-      )}
-    </nav>
+    <>
+      <nav
+        aria-label="Main"
+        className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 bg-forest pb-[env(safe-area-inset-bottom)] text-white shadow-[0_-8px_24px_rgba(43,23,64,0.25)] md:hidden"
+      >
+        {items
+          .filter((item) => item.mobile)
+          .map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              aria-current={isActive(item.href) ? "page" : undefined}
+              className={`${tab} ${isActive(item.href) ? "font-medium text-mint" : "text-white/80"}`}
+            >
+              <Icon d={item.d} />
+              {item.short ?? item.label}
+            </Link>
+          ))}
+
+        <button
+          type="button"
+          onClick={() => setMoreOpen(true)}
+          aria-haspopup="dialog"
+          className={`${tab} ${moreActive ? "font-medium text-mint" : "text-white/80"}`}
+        >
+          <Icon d="M4 6h16M4 12h16M4 18h16" />
+          More
+        </button>
+      </nav>
+
+      <Modal open={moreOpen} onClose={() => setMoreOpen(false)} title="More">
+        <ul className="grid gap-2">
+          {moreSorted.map((item) => (
+            <li key={item.label}>
+              <Link
+                href={item.href}
+                onClick={() => setMoreOpen(false)}
+                aria-current={isActive(item.href) ? "page" : undefined}
+                className={`flex min-h-14 items-center gap-4 rounded-2xl px-4 text-xl ${
+                  item.urgent ? "bg-bad-bg font-medium text-bad" : "bg-fog"
+                }`}
+              >
+                <Icon d={item.d} />
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <LogoutButton className="mt-4 w-full border-2 border-forest" />
+      </Modal>
+    </>
   );
 }

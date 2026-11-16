@@ -14,8 +14,9 @@ const items = [
   "One-tap dose logging",
   "Pill counting",
   "Missed-dose alerts",
+  "Blood sugar and pressure log",
   "Symptom tracking",
-  "Meal logging",
+  "Emergency card",
   "Daily schedule",
   "Doctor summaries",
 ];
@@ -23,7 +24,7 @@ const N = items.length;
 const looped = [...items, ...items, ...items];
 
 const fade = (distance: number) =>
-  distance === 0 ? 1 : Math.max(0.06, 0.3 - (distance - 1) * 0.07);
+  distance === 0 ? 1 : Math.max(0.14, 0.42 - (distance - 1) * 0.09);
 
 export default function Ticker() {
   const root = useRef<HTMLElement>(null);

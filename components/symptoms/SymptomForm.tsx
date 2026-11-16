@@ -63,7 +63,7 @@ export default function SymptomForm() {
         </div>
 
         {severity === 3 && (
-          <p role="alert" className="flex items-start gap-2 rounded-2xl bg-[#fbe0e0] p-4 font-medium text-[#a31515]">
+          <p role="alert" className="flex items-start gap-2 rounded-2xl bg-bad-bg p-4 font-medium text-bad">
             <TriangleAlert className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
             If you feel very unwell, faint or confused, or think it&apos;s an emergency, get medical help now.
           </p>
@@ -87,7 +87,7 @@ export default function SymptomForm() {
       <button
         type="submit"
         disabled={add.isPending}
-        className="min-h-14 rounded-full bg-mint px-6 text-xl font-semibold text-forest disabled:opacity-60"
+        className="min-h-14 rounded-full bg-forest px-6 text-xl font-semibold text-white transition hover:bg-pine active:scale-[0.99] disabled:opacity-60"
       >
         {add.isPending ? "Saving..." : "Save symptom"}
       </button>

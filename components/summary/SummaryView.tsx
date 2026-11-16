@@ -52,7 +52,7 @@ export default function SummaryView() {
         </div>
         <button
           onClick={() => window.print()}
-          className="inline-flex min-h-12 items-center gap-2 rounded-full bg-mint px-5 font-medium text-forest"
+          className="inline-flex min-h-12 items-center gap-2 rounded-full bg-forest px-5 font-medium text-white hover:bg-pine"
         >
           <Printer className="size-5" aria-hidden="true" />
           Print or save as PDF
@@ -101,10 +101,10 @@ export default function SummaryView() {
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <p className="text-lg font-medium">{r.label}</p>
                 <p className="flex gap-2 text-base">
-                  <span className="rounded-full bg-[#e3f3da] px-3 py-1 font-medium text-[#2f7d14]">Taken {r.taken}</span>
+                  <span className="rounded-full bg-ok-bg px-3 py-1 font-medium text-ok">Taken {r.taken}</span>
                   <span
                     className={`rounded-full px-3 py-1 font-medium ${
-                      r.missed ? "bg-[#fbe0e0] text-[#a31515]" : "bg-fog text-ink/70"
+                      r.missed ? "bg-bad-bg text-bad" : "bg-fog text-ink/70"
                     }`}
                   >
                     Missed {r.missed}

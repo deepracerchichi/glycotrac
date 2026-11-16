@@ -4,12 +4,12 @@ import StatusIcon, { type StatusKind } from "@/components/ui/StatusIcon";
 const tones = {
   success: "text-success",
   warning: "text-warning",
-  muted: "text-ink/60",
+  muted: "text-ink/70",
 };
 
 export function Panel({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <div aria-hidden="true" className={`rounded-2xl bg-white p-4 text-ink shadow-sm ring-1 ring-black/5 ${className}`}>
+    <div aria-hidden="true" className={`rounded-2xl bg-white p-5 text-ink shadow-sm ring-1 ring-black/5 ${className}`}>
       {children}
     </div>
   );
@@ -29,12 +29,12 @@ export function DoseRow({
   icon?: StatusKind;
 }) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-xl bg-paper px-3 py-2">
+    <div className="flex items-center justify-between gap-3 rounded-xl bg-paper px-3 py-2.5">
       <div>
-        <p className="text-base font-medium">{time}</p>
-        <p className="text-sm text-ink/60">{name}</p>
+        <p className="text-lg font-medium">{time}</p>
+        <p className="text-base text-ink/70">{name}</p>
       </div>
-      <p className={`flex items-center gap-1.5 text-sm font-medium ${tones[tone]}`}>
+      <p className={`flex items-center gap-1.5 text-base font-medium ${tones[tone]}`}>
         {icon && <StatusIcon kind={icon} />}
         {status}
       </p>

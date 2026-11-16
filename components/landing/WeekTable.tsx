@@ -2,11 +2,11 @@ import Reveal from "./Reveal";
 
 const rows = [
   { day: "Mon", doses: "3 of 3", symptom: "None", note: "All doses taken", hot: true },
-  { day: "Tue", doses: "2 of 3", symptom: "Dizzy", note: "Missed evening dose, dizzy at 21:30", hot: false },
+  { day: "Tue", doses: "2 of 3", symptom: "Dizzy", note: "Missed evening dose, dizzy at 9:30 PM", hot: false },
   { day: "Wed", doses: "3 of 3", symptom: "Tired", note: "Tired after lunch", hot: false },
 ];
 
-const head = "font-mono-landing text-xs uppercase tracking-wider text-ink/60";
+const head = "font-mono-landing text-sm uppercase tracking-wider text-ink/70";
 
 export default function WeekTable() {
   return (
@@ -19,12 +19,12 @@ export default function WeekTable() {
           <p className="mt-5 text-xl text-ink/70">
             Doses and symptoms side by side, ready to show your doctor.
           </p>
-          <p className="mt-2 text-sm font-medium text-ink/60">example data</p>
+          <p className="mt-2 text-base font-medium text-ink/70">Example data</p>
         </Reveal>
 
         <Reveal delay={0.1} className="mt-14 overflow-x-auto">
           <div aria-hidden="true" className="min-w-[36rem] rounded-[2rem] bg-white p-6 md:p-10">
-            <p className="font-mono-landing text-sm uppercase tracking-wider text-ink/60">
+            <p className="font-mono-landing text-sm uppercase tracking-wider text-ink/70">
               Summary for this week
             </p>
             <div className="mt-6 overflow-hidden rounded-2xl ring-1 ring-black/5">
@@ -44,7 +44,7 @@ export default function WeekTable() {
                   <span className="font-medium">{r.day}</span>
                   <span>{r.doses}</span>
                   <span>{r.symptom}</span>
-                  <span className="text-ink/70">{r.note}</span>
+                  <span className="text-ink/80">{r.note}</span>
                 </div>
               ))}
             </div>

@@ -56,7 +56,7 @@ export default function Hero() {
           </p>
 
           <div className="mt-10 flex flex-col items-start gap-6">
-            <ArrowButton href="/signup" className="hero-cta">Try glycotrac</ArrowButton>
+            <ArrowButton href="/signup" className="hero-cta">Get started</ArrowButton>
             <a href="#how" className="hero-cta inline-flex min-h-12 items-center text-lg text-mint underline-offset-4 hover:underline">
               See how it works →
             </a>

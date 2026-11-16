@@ -22,12 +22,12 @@ export default function EmergencyCard() {
   const p = profile.data;
 
   return (
-    <section className="rounded-3xl border-4 border-[#a31515] bg-white p-6">
+    <section className="rounded-3xl border-4 border-bad bg-white p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-3xl font-medium tracking-tight">Medical information</h2>
         <button
           onClick={() => window.print()}
-          className="inline-flex min-h-12 items-center gap-2 rounded-full bg-mint px-5 font-medium text-forest print:hidden"
+          className="inline-flex min-h-12 items-center gap-2 rounded-full bg-forest px-5 font-medium text-white hover:bg-pine print:hidden"
         >
           <Printer className="size-5" aria-hidden="true" />
           Print

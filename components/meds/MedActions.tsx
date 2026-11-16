@@ -31,7 +31,7 @@ function RefillForm({ id }: { id: string }) {
       <button
         onClick={() => refill.mutate({ id, pills }, { onSuccess: close })}
         disabled={!valid || refill.isPending}
-        className="min-h-14 rounded-full bg-mint px-6 text-xl font-semibold text-forest disabled:opacity-60"
+        className="min-h-14 rounded-full bg-forest px-6 text-xl font-semibold text-white transition hover:bg-pine active:scale-[0.99] disabled:opacity-60"
       >
         {refill.isPending ? "Saving..." : "Add pills"}
       </button>
@@ -56,7 +56,7 @@ function DeleteConfirm({ id, name }: { id: string; name: string }) {
         <button
           onClick={() => del.mutate(id, { onSuccess: close })}
           disabled={del.isPending}
-          className="min-h-14 rounded-full bg-[#a31515] px-6 text-lg font-semibold text-white disabled:opacity-60"
+          className="min-h-14 rounded-full bg-bad px-6 text-lg font-semibold text-white disabled:opacity-60"
         >
           {del.isPending ? "Deleting..." : "Yes, delete"}
         </button>

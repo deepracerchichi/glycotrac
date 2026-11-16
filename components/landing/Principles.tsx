@@ -8,7 +8,7 @@ const cards = [
     text: "Big buttons, clear words, and one screen for everything due today.",
     mock: (
       <Panel>
-        <p className="text-base font-medium">13:00 · Lunch tablet</p>
+        <p className="text-base font-medium">1:00 PM · Lunch tablet</p>
         <div className="mt-3 rounded-xl bg-mint px-3 py-3 text-center font-medium text-forest">
           Mark as taken
         </div>
@@ -20,9 +20,9 @@ const cards = [
     text: "Notifications on your phone at the times you choose.",
     mock: (
       <Panel>
-        <p className="text-sm text-ink/60">glycotrac · now</p>
-        <p className="mt-1 text-base font-medium">Time for your medication</p>
-        <p className="text-sm text-ink/60">Lunch tablet · 500mg</p>
+        <p className="text-base text-ink/70">glycotrac · now</p>
+        <p className="mt-1 text-lg font-medium">Time for your medication</p>
+        <p className="text-base text-ink/70">Lunch tablet · 500mg</p>
       </Panel>
     ),
   },
@@ -35,7 +35,7 @@ const cards = [
           <Lock className="size-4" aria-hidden="true" />
           Only you
         </p>
-        <p className="mt-1 text-sm text-ink/60">Doses, symptoms and meals stay in your account.</p>
+        <p className="mt-1 text-base text-ink/70">Doses, readings and symptoms stay in your account.</p>
       </Panel>
     ),
   },

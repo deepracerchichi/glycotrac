@@ -1,26 +1,31 @@
 import Link from "next/link";
-import { Activity, CalendarDays, Droplet, HeartPulse, Settings } from "lucide-react";
+import { Activity, CalendarDays, Droplet, HeartPulse } from "lucide-react";
 
 const actions = [
-  { href: "/dashboard/readings", label: "Log a reading", text: "Blood sugar or blood pressure.", Icon: Droplet },
-  { href: "/dashboard/symptoms", label: "Log a symptom", text: "Note how you feel right now.", Icon: Activity },
-  { href: "/dashboard/appointments", label: "Appointments", text: "Visits, lab tests and check-ups.", Icon: CalendarDays },
-  { href: "/dashboard/emergency", label: "Emergency card", text: "Your details, ready to print.", Icon: HeartPulse },
-  { href: "/dashboard/settings", label: "Settings", text: "Units, targets and reminders.", Icon: Settings },
+  { href: "/dashboard/emergency", label: "Emergency card", text: "Your details, ready to print.", Icon: HeartPulse, urgent: true },
+  { href: "/dashboard/readings", label: "Log a reading", text: "Blood sugar or blood pressure.", Icon: Droplet, urgent: false },
+  { href: "/dashboard/symptoms", label: "Log a symptom", text: "Note how you feel right now.", Icon: Activity, urgent: false },
+  { href: "/dashboard/appointments", label: "Appointments", text: "Visits, lab tests and check-ups.", Icon: CalendarDays, urgent: false },
 ];
 
 export default function QuickActions() {
   return (
-    <div className="grid gap-4">
-      {actions.map(({ href, label, text, Icon }) => (
-        <Link key={href} href={href} className="flex items-start gap-4 rounded-3xl bg-white p-5 ring-1 ring-black/5 hover:bg-fog">
-          <Icon className="mt-1 size-6 shrink-0" aria-hidden="true" />
+    <nav aria-label="Quick actions" className="grid grid-cols-2 gap-3 xl:grid-cols-1">
+      {actions.map(({ href, label, text, Icon, urgent }) => (
+        <Link
+          key={href}
+          href={href}
+          className={`flex flex-col items-start gap-3 rounded-3xl p-4 shadow-sm ring-1 transition active:scale-[0.99] xl:flex-row xl:p-5 ${
+            urgent ? "bg-bad-bg text-bad ring-bad/20 hover:bg-bad-bg/70" : "bg-white ring-black/5 hover:bg-fog"
+          }`}
+        >
+          <Icon className="size-7 shrink-0 xl:mt-1 xl:size-6" aria-hidden="true" />
           <div>
-            <p className="text-xl font-medium">{label}</p>
-            <p className="text-ink/70">{text}</p>
+            <p className="text-lg font-medium leading-snug xl:text-xl">{label}</p>
+            <p className={`hidden xl:block ${urgent ? "text-bad/80" : "text-ink/70"}`}>{text}</p>
           </div>
         </Link>
       ))}
-    </div>
+    </nav>
   );
 }

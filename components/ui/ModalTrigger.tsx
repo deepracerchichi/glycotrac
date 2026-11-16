@@ -8,7 +8,7 @@ const CloseContext = createContext<() => void>(() => {});
 
 export const useModalClose = () => useContext(CloseContext);
 
-export const triggerPrimary = "inline-flex min-h-12 items-center gap-2 rounded-full bg-mint px-6 font-medium text-forest";
+export const triggerPrimary = "inline-flex min-h-12 items-center gap-2 rounded-full bg-forest px-6 font-medium text-white transition hover:bg-pine active:scale-[0.98]";
 export const triggerOutline = "inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-forest px-4 font-medium";
 
 export default function ModalTrigger({

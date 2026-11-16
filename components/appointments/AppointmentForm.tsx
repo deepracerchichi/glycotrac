@@ -51,7 +51,7 @@ export default function AppointmentForm() {
       <button
         type="submit"
         disabled={add.isPending}
-        className="min-h-14 rounded-full bg-mint px-6 text-xl font-semibold text-forest disabled:opacity-60"
+        className="min-h-14 rounded-full bg-forest px-6 text-xl font-semibold text-white transition hover:bg-pine active:scale-[0.99] disabled:opacity-60"
       >
         {add.isPending ? "Saving..." : "Add appointment"}
       </button>
