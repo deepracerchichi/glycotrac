@@ -17,3 +17,10 @@ export function lagosNow() {
     minutes: Number(get("hour")) * 60 + Number(get("minute")),
   };
 }
+
+// "13:00" -> "1:00 PM". Display only; the stored value stays 24-hour.
+export function formatTime12(hhmm: string) {
+  const [h, m] = hhmm.split(":").map(Number);
+  const hour = h % 12 === 0 ? 12 : h % 12;
+  return `${hour}:${String(m).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`;
+}

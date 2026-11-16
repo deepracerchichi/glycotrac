@@ -54,11 +54,11 @@ export function bpLevel(sys: number, dia: number, t: Targets | null): Level {
 }
 
 export const levelStyle: Record<Level, { label: string; chip: string }> = {
-  "alert-low": { label: "Very low", chip: "bg-[#fbe0e0] text-[#a31515]" },
-  "alert-high": { label: "Very high", chip: "bg-[#fbe0e0] text-[#a31515]" },
-  below: { label: "Below target", chip: "bg-[#fdebd3] text-[#9a4a07]" },
-  above: { label: "Above target", chip: "bg-[#fdebd3] text-[#9a4a07]" },
-  in: { label: "In target", chip: "bg-[#e3f3da] text-[#2f7d14]" },
+  "alert-low": { label: "Very low", chip: "bg-bad-bg text-bad" },
+  "alert-high": { label: "Very high", chip: "bg-bad-bg text-bad" },
+  below: { label: "Below target", chip: "bg-warn-bg text-warn" },
+  above: { label: "Above target", chip: "bg-warn-bg text-warn" },
+  in: { label: "In target", chip: "bg-ok-bg text-ok" },
   none: { label: "", chip: "" },
 };
 
