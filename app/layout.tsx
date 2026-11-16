@@ -1,12 +1,17 @@
-import type { Metadata } from "next";
-import { Bricolage_Grotesque, Google_Sans_Flex } from "next/font/google";
+import type { Metadata, Viewport } from "next";
 import Providers from "@/components/providers";
 import { fontClasses } from "@/components/shared/fontClasses";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Glucotrac",
-  description: "Medication reminders, refill alerts and symptom tracking for people living with diabetes.",
+  title: { default: "Glycotrac", template: "%s · Glycotrac" },
+  description: "Medication reminders, refill alerts and health tracking for people living with diabetes.",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#2b1740",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

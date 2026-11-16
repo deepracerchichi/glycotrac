@@ -123,8 +123,9 @@ export async function POST(request: Request) {
     const when = new Date(a.scheduled_at).toLocaleString("en-GB", {
       timeZone: "Africa/Lagos",
       weekday: "short",
-      hour: "2-digit",
+      hour: "numeric",
       minute: "2-digit",
+      hour12: true,
     });
     await push(a.user_id, "Appointment coming up", `${a.title}, ${when}`, a.id);
     await admin.from("appointments").update({ reminded_at: new Date().toISOString() }).eq("id", a.id);
