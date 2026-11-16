@@ -1,6 +1,6 @@
 "use client";
 // TEMPORARY layout check. Deleted right after.
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { fontClasses } from "@/components/shared/fontClasses";
 import { Sidebar } from "@/components/dashboard/Nav";
@@ -13,7 +13,9 @@ const meds = [
 ];
 
 export default function Page() {
-  const [client] = useState(() => {
+  const [client, setClient] = useState<QueryClient | null>(null);
+
+  useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     try { localStorage.setItem("sidebar-collapsed", q.get("c") === "1" ? "1" : "0"); } catch {}
     const c = new QueryClient({ defaultOptions: { queries: { staleTime: Infinity, retry: false } } });
@@ -22,8 +24,11 @@ export default function Page() {
     c.setQueryData(["readings", 30], []);
     c.setQueryData(["appointments"], []);
     c.setQueryData(["settings"], { glucose_unit: "mgdl", glucose_target_low: null, glucose_target_high: null, bp_sys_max: null, bp_dia_max: null, foot_check_enabled: false });
-    return c;
-  });
+    setClient(c);
+  }, []);
+
+  if (!client) return null;
+
   return (
     <QueryClientProvider client={client}>
       <div className={`${fontClasses} min-h-screen bg-paper text-ink md:flex`}>
